@@ -15,8 +15,8 @@ const ChatScreen = () => {
     useLayoutEffect(() => {
         navigation.setOptions({
             title: name || 'Unknown man.',
-        })
-    }, [])
+        });
+    }, []);
 
     return (
         <KeyboardAvoidingView
