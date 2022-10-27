@@ -1,12 +1,12 @@
 //@ts-nocheck
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 
 const InputBox = () => {
-
+    const [message, setMessage] = useState('');
     const onSend = () => {
-        console.warn('Sending...');
+        console.warn('Sending...', message);
     }
 
     return (
@@ -15,7 +15,7 @@ const InputBox = () => {
                 <AntDesign name="plus" size={24} color="#0090ff" />
             </TouchableOpacity>
             <View className="flex-1 flex-row items-center border border-gray-300 rounded-full mx-3 px-3 py-[5px]">
-                <TextInput placeholder={'Type your message here.'} className="flex-1" />
+                <TextInput value={message} onChangeText={(text) => setMessage(text)} placeholder={'Type your message here.'} className="flex-1" />
                 <TouchableOpacity activeOpacity={0.7} className="">
                     <Ionicons name="document-attach" size={19} color="#0090ff" />
                 </TouchableOpacity>
