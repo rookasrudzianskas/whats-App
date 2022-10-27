@@ -1,7 +1,6 @@
 //@ts-nocheck
 import React from 'react';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import dayjs from "dayjs";
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 
 const ContactListItem = ({user}) => {
     return (
