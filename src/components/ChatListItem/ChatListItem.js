@@ -5,7 +5,7 @@ import {EvilIcons, MaterialIcons} from "@expo/vector-icons";
 
 const ChatListItem = ({chat}) => {
     return (
-        <TouchableOpacity activeOpacity={0.7} className="flex-row items-start mx-4 mt-5">
+        <TouchableOpacity activeOpacity={0.7} className="flex-row items-start mx-4 mb-6">
             <View className="">
                 <Image className="w-[55px] h-[55px] rounded-full" source={{ uri: chat?.user?.image || 'https://i.pravatar.cc/300' }} />
             </View>
