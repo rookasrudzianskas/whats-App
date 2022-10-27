@@ -4,6 +4,11 @@ import {Text, View, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 
 const InputBox = () => {
+
+    const onSend = () => {
+        console.warn('Sending...');
+    }
+
     return (
         <View className="flex-row items-center bg-white px-3 py-2 pb-7">
             <TouchableOpacity activeOpacity={0.7}>
@@ -15,7 +20,7 @@ const InputBox = () => {
                     <Ionicons name="document-attach" size={19} color="#0090ff" />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity activeOpacity={0.7} className="bg-[#0090ff] w-9 items-center justify-center rounded-full overflow-hidden h-9">
+            <TouchableOpacity onPress={() => onSend()} activeOpacity={0.7} className="bg-[#0090ff] w-9 items-center justify-center rounded-full overflow-hidden h-9">
                 <Ionicons name="ios-send-sharp" size={20} style={{marginLeft: 3}} color="white" />
             </TouchableOpacity>
         </View>
