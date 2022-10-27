@@ -54,7 +54,7 @@ const MainTabNavigator = () => {
                             onPress={() => navigation.navigate('Contacts')}
                             name="new-message"
                             size={18}
-                            color={'royalblue'}
+                            color={'#0090ff'}
                             style={{ marginRight: 15 }}
                         />
                     ),
