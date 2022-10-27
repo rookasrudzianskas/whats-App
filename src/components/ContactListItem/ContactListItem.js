@@ -3,6 +3,7 @@ import React from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 
 const ContactListItem = ({user}) => {
+
     return (
         <TouchableOpacity className="flex-row items-center mx-4 mb-6">
             <View className="">
