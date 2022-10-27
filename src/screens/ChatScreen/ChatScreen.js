@@ -6,11 +6,13 @@ import messagesData from '../../../assets/data/messages.json';
 import Message from "../../components/Message";
 import InputBox from "../../components/InputBox";
 import {useNavigation, useRoute} from "@react-navigation/native";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 const ChatScreen = () => {
     const route = useRoute();
     const { id, name } = route?.params;
     const navigation = useNavigation();
+    const insets = useSafeAreaInsets();
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -22,10 +24,11 @@ const ChatScreen = () => {
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.bg}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 90}
         >
             <ImageBackground source={bg} className="h-full">
                 <FlatList
-                    style={{backgroundColor: 'white'}}
+                    // style={{backgroundColor: 'white'}}
                     data={messagesData}
                     showsVerticalScrollIndicator={false}
                     style={styles.list}
@@ -47,5 +50,6 @@ const styles = StyleSheet.create({
     },
    list: {
        padding: 10,
+       // backgroundColor: 'white',
    }
 });
