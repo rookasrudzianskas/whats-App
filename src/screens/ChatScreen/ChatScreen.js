@@ -25,6 +25,7 @@ const ChatScreen = () => {
         >
             <ImageBackground source={bg} className="h-full">
                 <FlatList
+                    style={{backgroundColor: 'white'}}
                     data={messagesData}
                     showsVerticalScrollIndicator={false}
                     style={styles.list}
