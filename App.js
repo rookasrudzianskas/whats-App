@@ -26,7 +26,7 @@ const App = () => {
             const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub }));
             // if there is no users in db, create one
             if(userData?.data?.getUser) {
-                console.log("User is already registered in database");
+                // console.log("User is already registered in database");
                 setLoading(false);
                 return;
             }
@@ -34,13 +34,14 @@ const App = () => {
             const newUser = {
                 id: authUser.attributes.sub,
                 name: authUser.username,
-                imageUri: "https://i.pravatar.cc/300",
+                image: "https://i.pravatar.cc/300",
                 status: "Hey, I am using WhatsApp"
             };
 
             const newUserResponse = await API.graphql(graphqlOperation(createUser, {
                 input: newUser
             }));
+            setLoading(false);
 
         })();
     }, []);
