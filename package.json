@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.9.1",
     "amazon-cognito-identity-js": "^5.2.12",
     "aws-amplify": "^4.3.41",
+    "aws-amplify-react-native": "^6.0.5",
     "dayjs": "^1.11.6",
     "expo": "~46.0.16",
     "expo-status-bar": "~1.4.0",

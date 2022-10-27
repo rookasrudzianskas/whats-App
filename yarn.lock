@@ -4192,6 +4192,13 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+aws-amplify-react-native@^6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/aws-amplify-react-native/-/aws-amplify-react-native-6.0.5.tgz#0e99d9b3d40cfc2aa0ba5d53d5fc913ba4c4e35d"
+  integrity sha512-Kxo5ziuBDk/eNveH83ZN23zmIYx4icUuMmgSA/+IHhM7TyJ9qQTF87UnWsSBzdJLgh1iolbXY2/xE8hPCLyAzA==
+  dependencies:
+    buffer "^5.2.1"
+
 aws-amplify@^4.3.41:
   version "4.3.41"
   resolved "https://registry.yarnpkg.com/aws-amplify/-/aws-amplify-4.3.41.tgz#1ed5e6d7a428c20d2b329651aadd4a56571264eb"
@@ -4494,7 +4501,7 @@ buffer@4.9.2:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.5.0:
+buffer@^5.2.1, buffer@^5.5.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.7.1.tgz#ba62e7c13133053582197160851a8f648e99eed0"
   integrity sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==
