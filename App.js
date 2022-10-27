@@ -7,7 +7,7 @@ import ChatScreen from "./src/screens/ChatScreen";
 
 const App = () => {
     return (
-        <View className="py-16">
+        <View className="py-0">
             <ChatScreen />
             <StatusBar style="auto" />
         </View>

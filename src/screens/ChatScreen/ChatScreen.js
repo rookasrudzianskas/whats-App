@@ -1,14 +1,14 @@
 //@ts-nocheck
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-
+import {Text, View, StyleSheet, ImageBackground} from 'react-native';
+import bg from '../../../assets/images/BG.png';
 const ChatScreen = () => {
     return (
-        <View>
+        <ImageBackground source={bg} className="h-full">
             <Text>
                 byrookas 🚀
             </Text>
-        </View>
+        </ImageBackground>
     );
 };
 
