@@ -12,16 +12,15 @@ const ContactListItem = ({user}) => {
                 <View className="flex-row justify-between items-center">
                     <Text numberOfLines={1} className="text-lg font-semibold">{user?.name || "Loading..."}</Text>
                 </View>
-                <View className="space-x-1 flex-row items-center">
-                    {/*<EvilIcons name="check" size={16} color="green" />*/}
-                    <Text numberOfLines={2} className="text-blue-500 font-bold text-[13px]">
-                        {user?.status && (
-                            <>
-                                {user?.status || "Loading..."}
-                            </>
-                        )}
-                    </Text>
-                </View>
+                {user?.status && (
+                    <View className="space-x-1 flex-row items-center">
+                        {/*<EvilIcons name="check" size={16} color="green" />*/}
+                        <Text numberOfLines={2} className="text-blue-500 font-bold text-[13px]">
+                            {user?.status || "Loading..."}
+                        </Text>
+                    </View>
+                )}
+
             </View>
         </TouchableOpacity>
     );
