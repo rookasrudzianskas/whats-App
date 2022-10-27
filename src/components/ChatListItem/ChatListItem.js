@@ -12,7 +12,7 @@ const ChatListItem = ({chat}) => {
     const navigation = useNavigation();
 
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Chat', {id: chat?.id })} activeOpacity={0.7} className="flex-row items-start mx-4 mb-6">
+        <TouchableOpacity onPress={() => navigation.navigate('Chat', {id: chat?.id, name: chat?.user?.name})} activeOpacity={0.7} className="flex-row items-start mx-4 mb-6">
             <View className="">
                 <Image className="w-[55px] h-[55px] rounded-full" source={{ uri: chat?.user?.image || 'https://i.pravatar.cc/300' }} />
             </View>
