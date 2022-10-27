@@ -15,8 +15,8 @@ const ContactListItem = ({user}) => {
                 {user?.status && (
                     <View className="space-x-1 flex-row items-center">
                         {/*<EvilIcons name="check" size={16} color="green" />*/}
-                        <Text numberOfLines={2} className="text-blue-500 font-bold text-[13px]">
-                            {user?.status || "Loading..."}
+                        <Text numberOfLines={1} className="text-blue-500 font-bold text-[13px]">
+                            {user?.status.substring(0, 10) || "Loading..."}...
                         </Text>
                     </View>
                 )}
