@@ -11,6 +11,8 @@ const ChatScreen = () => {
             <FlatList
                 data={messagesData}
                 showsVerticalScrollIndicator={false}
+                style={styles.list}
+                inverted={true}
                 renderItem={({item}) => (
                 <Message message={item} />
             )} />
@@ -19,3 +21,9 @@ const ChatScreen = () => {
 };
 
 export default ChatScreen;
+
+const styles = StyleSheet.create({
+   list: {
+       padding: 10,
+   }
+});
