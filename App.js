@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import ChatListItem from "./src/components/ChatListItem";
 
 const App = () => {
     return (
         <View className="">
-            <Text>Hello!</Text>
+            <ChatListItem />
             <StatusBar style="auto" />
         </View>
     );
