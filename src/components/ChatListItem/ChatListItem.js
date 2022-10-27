@@ -3,7 +3,7 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {EvilIcons, MaterialIcons} from "@expo/vector-icons";
 
-const ChatListItem = () => {
+const ChatListItem = (props) => {
     return (
         <TouchableOpacity activeOpacity={0.7} className="flex-row mt-20 items-start mx-4">
             <View className="">
