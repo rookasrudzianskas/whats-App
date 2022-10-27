@@ -6,7 +6,7 @@ import ChatListItem from "../../components/ChatListItem";
 
 const ChatsScreen = () => {
     return (
-        <View className="">
+        <View className="mt-5">
             <FlatList
                 data={chatsData}
                 showsVerticalScrollIndicator={false}

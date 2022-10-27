@@ -4,10 +4,13 @@ import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {EvilIcons, MaterialIcons} from "@expo/vector-icons";
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
+import {useNavigation} from "@react-navigation/native";
 dayjs.extend(relativeTime);
 
 
 const ChatListItem = ({chat}) => {
+    const navigation = useNavigation();
+
     return (
         <TouchableOpacity activeOpacity={0.7} className="flex-row items-start mx-4 mb-6">
             <View className="">
