@@ -4,6 +4,7 @@ import ContactListItem from '../../components/ContactListItem';
 import {useEffect, useState} from "react";
 import {API, graphqlOperation} from "aws-amplify";
 import {listUsers} from "../../graphql/queries";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 const ContactsScreen = () => {
     const [users, setUsers] = useState([]);
@@ -16,14 +17,7 @@ const ContactsScreen = () => {
 
     }, []);
 
-    if(users.length === 0){
-        return (
-            <View className="flex-1 items-center justify-center">
-                <ActivityIndicator />
-            </View>
-
-        )
-    }
+    if(users.length === 0) return <LoadingIndicator />;
 
     return (
         <View className="pt-5 bg-white flex-1">
