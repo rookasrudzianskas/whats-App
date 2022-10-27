@@ -1,5 +1,4 @@
 import {ActivityIndicator, FlatList, View} from 'react-native';
-import chats from '../../../assets/data/chats.json';
 import ContactListItem from '../../components/ContactListItem';
 import {useEffect, useState} from "react";
 import {API, graphqlOperation} from "aws-amplify";
