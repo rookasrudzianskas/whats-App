@@ -4,9 +4,10 @@ import {Text, View, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 
 const InputBox = () => {
-    const [message, setMessage] = useState('');
+    const [newMessage, setNewMessage] = useState('');
     const onSend = () => {
-        console.warn('Sending...', message);
+        console.warn('Sending...', newMessage);
+        setNewMessage('');
     }
 
     return (
@@ -15,7 +16,7 @@ const InputBox = () => {
                 <AntDesign name="plus" size={24} color="#0090ff" />
             </TouchableOpacity>
             <View className="flex-1 flex-row items-center border border-gray-300 rounded-full mx-3 px-3 py-[5px]">
-                <TextInput value={message} onChangeText={(text) => setMessage(text)} placeholder={'Type your message here.'} className="flex-1" />
+                <TextInput value={newMessage} onChangeText={(text) => setNewMessage(text)} placeholder={'Type your message here.'} className="flex-1" />
                 <TouchableOpacity activeOpacity={0.7} className="">
                     <Ionicons name="document-attach" size={19} color="#0090ff" />
                 </TouchableOpacity>
