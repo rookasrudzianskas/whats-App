@@ -1,4 +1,4 @@
-import {FlatList, View} from 'react-native';
+import {ActivityIndicator, FlatList, View} from 'react-native';
 import chats from '../../../assets/data/chats.json';
 import ContactListItem from '../../components/ContactListItem';
 import {useEffect, useState} from "react";
@@ -15,6 +15,15 @@ const ContactsScreen = () => {
         });
 
     }, []);
+
+    if(users.length === 0){
+        return (
+            <View className="flex-1 items-center justify-center">
+                <ActivityIndicator />
+            </View>
+
+        )
+    }
 
     return (
         <View className="pt-5 bg-white flex-1">
