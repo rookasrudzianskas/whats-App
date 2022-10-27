@@ -7,8 +7,16 @@ dayjs.extend(relativeTime);
 
 
 const Message = ({message}) => {
+
+    const isMyMessage = () => {
+        return message.user.id === 'u1';
+    }
+
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {
+            backgroundColor: isMyMessage() ? '#DCF8C5' : 'white',
+            alignSelf: isMyMessage() ? 'flex-end' : 'flex-start',
+        }]}>
             <Text>{message?.text}</Text>
             <Text className="mt-2" style={styles.time}>{dayjs(message?.createdAt).fromNow() || 'Loading...'}</Text>
         </View>
@@ -19,9 +27,7 @@ export default Message;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#e5e5e5',
         padding: 10,
-        alignSelf: 'flex-start',
         margin: 5,
         borderRadius: 10,
         maxWidth: '80%',
