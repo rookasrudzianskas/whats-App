@@ -2,6 +2,10 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {EvilIcons, MaterialIcons} from "@expo/vector-icons";
+import relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from 'dayjs';
+dayjs.extend(relativeTime);
+
 
 const ChatListItem = ({chat}) => {
     return (
@@ -12,7 +16,7 @@ const ChatListItem = ({chat}) => {
             <View className="flex-1 justify-center ml-3">
                 <View className="flex-row justify-between items-center">
                     <Text numberOfLines={1} className="text-lg font-semibold">{chat?.user?.name || "Loading..."}</Text>
-                    <Text className="text-gray-500 text-[15px]">{chat?.lastMessage?.createdAt || 'Loading...'}</Text>
+                    <Text className="text-gray-500 text-[15px]">{dayjs(chat?.lastMessage?.createdAt ).fromNow()|| 'Loading...'}</Text>
                 </View>
                 <View className="space-x-1 flex-row items-center">
                     {/*<EvilIcons name="check" size={16} color="green" />*/}
