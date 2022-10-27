@@ -4,6 +4,7 @@ import {Text, View, StyleSheet, ImageBackground, FlatList} from 'react-native';
 import bg from '../../../assets/images/BG.png';
 import messagesData from '../../../assets/data/messages.json';
 import Message from "../../components/Message";
+import InputBox from "../../components/InputBox";
 
 const ChatScreen = () => {
     return (
@@ -16,6 +17,7 @@ const ChatScreen = () => {
                 renderItem={({item}) => (
                 <Message message={item} />
             )} />
+            <InputBox />
         </ImageBackground>
     );
 };

@@ -13,7 +13,7 @@ const Message = ({message}) => {
     }
 
     return (
-        <View style={[styles.container, {
+        <View className="shadow-sm" style={[styles.container, {
             backgroundColor: isMyMessage() ? '#DCF8C5' : 'white',
             alignSelf: isMyMessage() ? 'flex-end' : 'flex-start',
         }]}>
