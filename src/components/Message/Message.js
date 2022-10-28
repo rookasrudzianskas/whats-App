@@ -1,23 +1,26 @@
 //@ts-nocheck
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
+import {Auth} from "aws-amplify";
 dayjs.extend(relativeTime);
 
 
 const Message = ({message}) => {
+    const [isMe, setIsMe] = useState(false);
 
-    const isMyMessage = () => {
-        return message?.user?.id === 'u1';
-    }
-
-    console.log(message);
+    useEffect(() => {
+        (async () => {
+            const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+            setIsMe(message.userID === authUser.attributes.sub);
+        })();
+    }, []);
 
     return (
         <View className="shadow-sm" style={[styles.container, {
-            backgroundColor: isMyMessage() ? '#DCF8C5' : 'white',
-            alignSelf: isMyMessage() ? 'flex-end' : 'flex-start',
+            backgroundColor: isMe ? '#DCF8C5' : 'white',
+            alignSelf: isMe ? 'flex-end' : 'flex-start',
         }]}>
             <Text>{message?.text}</Text>
             <Text className="mt-2" style={styles.time}>{dayjs(message?.createdAt).fromNow() || 'Loading...'}</Text>

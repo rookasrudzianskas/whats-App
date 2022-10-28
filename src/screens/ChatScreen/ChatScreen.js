@@ -31,7 +31,7 @@ const ChatScreen = () => {
         })();
     }, []);
 
-    console.log(chatRoom);
+    // console.log(chatRoom);
 
     if(!chatRoomID) return <LoadingIndicator />
 
