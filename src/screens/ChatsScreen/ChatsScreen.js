@@ -1,12 +1,14 @@
 //@ts-nocheck
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, FlatList} from 'react-native';
-import chatsData from "../../../assets/data/chats.json";
 import ChatListItem from "../../components/ChatListItem";
 import {API, Auth, graphqlOperation} from "aws-amplify";
 import {listChatRooms} from "./queries";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 const ChatsScreen = () => {
+    const [chatRooms, setChatRooms] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchChats = async () => {
@@ -14,19 +16,23 @@ const ChatsScreen = () => {
             const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
             // console.log(authUser.attributes.sub);
             const response = await API.graphql(graphqlOperation(listChatRooms, { id: authUser.attributes.sub }));
-            console.log(response);
+
+            setChatRooms(response.data.getUser.ChatRooms.items);
+            setLoading(false);
         }
         fetchChats();
     }, []);
 
+    if(loading) return <LoadingIndicator />;
+
 
     return (
-        <View className="mt-5">
+        <View className="pt-5 flex-1 bg-white">
             <FlatList
-                data={chatsData}
+                data={chatRooms}
                 showsVerticalScrollIndicator={false}
                 renderItem={({item}) => (
-                    <ChatListItem chat={item} />
+                    <ChatListItem chat={item.chatRoom} />
                 )} />
         </View>
     );

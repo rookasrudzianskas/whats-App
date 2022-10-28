@@ -10,15 +10,16 @@ dayjs.extend(relativeTime);
 
 const ChatListItem = ({chat}) => {
     const navigation = useNavigation();
+    const user = chat.users.items[0];
 
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Chat', {id: chat?.id, name: chat?.user?.name})} activeOpacity={0.7} className="flex-row items-start mx-4 mb-6">
+        <TouchableOpacity onPress={() => navigation.navigate('Chat', {id: chat?.id, name: user?.name})} activeOpacity={0.7} className="flex-row items-start mx-4 mb-6">
             <View className="">
-                <Image className="w-[55px] h-[55px] rounded-full" source={{ uri: chat?.user?.image || 'https://i.pravatar.cc/300' }} />
+                <Image className="w-[55px] h-[55px] rounded-full" source={{ uri: user?.image || 'https://i.pravatar.cc/300' }} />
             </View>
             <View className="flex-1 justify-center ml-3">
                 <View className="flex-row justify-between items-center">
-                    <Text numberOfLines={1} className="text-lg font-semibold">{chat?.user?.name || "Loading..."}</Text>
+                    <Text numberOfLines={1} className="text-lg font-semibold">{user?.name || "Loading..."}</Text>
                     <Text className="text-gray-500 text-[15px]">{dayjs(chat?.lastMessage?.createdAt ).fromNow()|| 'Loading...'}</Text>
                 </View>
                 <View className="space-x-1 flex-row items-center">
