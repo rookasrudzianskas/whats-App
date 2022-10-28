@@ -1,17 +1,35 @@
 //@ts-nocheck
 import React from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
+import {API, Auth, graphqlOperation} from "aws-amplify";
+import {createChatRoom, createUserChatRoom} from "../../graphql/mutations";
+import {useNavigation} from "@react-navigation/native";
 
 const ContactListItem = ({user}) => {
+    const navigation = useNavigation();
 
-    const onPress = () => {
+    const onPress = async () => {
         // check if we already have a chat room with the selected user
         // if we do, navigate to the chat room
 
         // create a new chatRoom
+        const newChatRoomData = await API.graphql(graphqlOperation(createChatRoom, { input: {}}));
+
+        if(!newChatRoomData.data?.createChatRoom) {
+            console.log("Failed to create a chat room");
+            return;
+        }
+
+        const newChatRoom = newChatRoomData.data?.createChatRoom;
 
         // Add people to the chatRoom
-
+        // Add the clicked user to the chat room
+        await API.graphql(graphqlOperation(createUserChatRoom, { input: { chatRoomID: newChatRoom.id, userID: user.id}}));
+        // Add authenticated user to the chat room
+        const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+        await API.graphql(graphqlOperation(createUserChatRoom, { input: { chatRoomID: newChatRoom.id, userID: authUser?.attributes?.sub}}));
+        // Navigate to the chatRoom
+        navigation.navigate("Chat", { id: newChatRoom.id });
     }
 
     return (
