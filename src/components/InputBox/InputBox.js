@@ -3,13 +3,26 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, TextInput, SafeAreaView} from 'react-native';
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {API, Auth, graphqlOperation} from "aws-amplify";
+import {createMessage} from "../../graphql/mutations";
 
-const InputBox = () => {
-    const [newMessage, setNewMessage] = useState('');
-    const onSend = () => {
+const InputBox = ({chatRoomID}) => {
+    const [text, setText] = useState('');
 
-        // console.warn('Sending...', newMessage);
-        setNewMessage('');
+    const onSend = async () => {
+        const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
+
+        const newMessage = {
+            chatroomID: chatRoomID,
+            text,
+            userID: authUser.attributes.sub,
+        };
+
+        const newMessageData = await API.graphql(
+            graphqlOperation(createMessage, { input: newMessage })
+        );
+
+        setText("");
     }
 
     return (
@@ -19,7 +32,7 @@ const InputBox = () => {
                    <AntDesign name="plus" size={24} color="#0090ff" />
                </TouchableOpacity>
                <View className="flex-1 flex-row items-center border border-gray-300 rounded-full mx-3 px-3 py-[5px]">
-                   <TextInput value={newMessage} onChangeText={(text) => setNewMessage(text)} placeholder={'Type your message here.'} className="flex-1" />
+                   <TextInput value={text} onChangeText={(text) => setText(text)} placeholder={'Type your message here.'} className="flex-1" />
                    <TouchableOpacity activeOpacity={0.7} className="">
                        <Ionicons name="document-attach" size={19} color="#0090ff" />
                    </TouchableOpacity>

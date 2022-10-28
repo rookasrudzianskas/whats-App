@@ -13,6 +13,7 @@ const ChatScreen = () => {
     const { id, name } = route?.params;
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
+    const chatRoomID = route.params.id;
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -36,7 +37,7 @@ const ChatScreen = () => {
                     renderItem={({item}) => (
                     <Message message={item} />
                 )} />
-                <InputBox />
+                <InputBox chatRoomID={chatRoomID} />
             </ImageBackground>
         </KeyboardAvoidingView>
     );
