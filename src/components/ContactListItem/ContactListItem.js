@@ -4,8 +4,18 @@ import {Text, View, Image, TouchableOpacity} from 'react-native';
 
 const ContactListItem = ({user}) => {
 
+    const onPress = () => {
+        // check if we already have a chat room with the selected user
+        // if we do, navigate to the chat room
+
+        // create a new chatRoom
+
+        // Add people to the chatRoom
+
+    }
+
     return (
-        <TouchableOpacity className="flex-row items-center mx-4 mb-6">
+        <TouchableOpacity onPress={onPress} activeOpacity={0.7} className="flex-row items-center mx-4 mb-6">
             <View className="">
                 <Image className="w-[55px] h-[55px] rounded-full" source={{ uri: user?.image || 'https://i.pravatar.cc/300' }} />
             </View>
