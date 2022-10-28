@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React from 'react';
-import {Text, View, Image, TouchableOpacity} from 'react-native';
+import {Text, View, Image, TouchableOpacity, Alert} from 'react-native';
 import {API, Auth, graphqlOperation} from "aws-amplify";
 import {createChatRoom, createUserChatRoom} from "../../graphql/mutations";
 import {useNavigation} from "@react-navigation/native";
@@ -16,7 +16,7 @@ const ContactListItem = ({user}) => {
         const newChatRoomData = await API.graphql(graphqlOperation(createChatRoom, { input: {}}));
 
         if(!newChatRoomData.data?.createChatRoom) {
-            console.log("Failed to create a chat room");
+            Alert.alert("Whoops, error occurred", "Please try again later");
             return;
         }
 
