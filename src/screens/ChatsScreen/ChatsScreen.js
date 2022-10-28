@@ -11,7 +11,7 @@ const ChatsScreen = () => {
         const fetchChats = async () => {
             // fetch chats
             const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-            console.log(authUser.attributes.sub);
+            // console.log(authUser.attributes.sub);
         }
         fetchChats();
     }, []);
