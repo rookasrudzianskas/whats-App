@@ -7,7 +7,8 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 const InputBox = () => {
     const [newMessage, setNewMessage] = useState('');
     const onSend = () => {
-        console.warn('Sending...', newMessage);
+
+        // console.warn('Sending...', newMessage);
         setNewMessage('');
     }
 
