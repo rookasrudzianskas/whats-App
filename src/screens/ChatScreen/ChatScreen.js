@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Text, View, StyleSheet, ImageBackground, FlatList, KeyboardAvoidingView, Platform} from 'react-native';
 import bg from '../../../assets/images/BG.png';
 import messagesData from '../../../assets/data/messages.json';
@@ -7,9 +7,13 @@ import Message from "../../components/Message";
 import InputBox from "../../components/InputBox";
 import {useNavigation, useRoute} from "@react-navigation/native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import LoadingIndicator from "../../components/LoadingIndicator";
+import {API, graphqlOperation} from "aws-amplify";
+import {getChatRoom} from "../../graphql/queries";
 
 const ChatScreen = () => {
     const route = useRoute();
+    const [chatRoom, setChatRoom] = useState(null);
     const { id, name } = route?.params;
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
@@ -21,6 +25,16 @@ const ChatScreen = () => {
         });
     }, []);
 
+    useEffect(() => {
+        (async () => {
+            API.graphql(graphqlOperation(getChatRoom, { id: chatRoomID })).then((result) => setChatRoom(result.data?.getChatRoom));
+        })();
+    }, []);
+
+    console.log(chatRoom);
+
+    if(!chatRoomID) return <LoadingIndicator />
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -30,7 +44,7 @@ const ChatScreen = () => {
             <ImageBackground source={bg} className="h-full">
                 <FlatList
                     // style={{backgroundColor: 'white'}}
-                    data={messagesData}
+                    data={chatRoom?.Messages.items}
                     showsVerticalScrollIndicator={false}
                     style={styles.list}
                     inverted={true}
