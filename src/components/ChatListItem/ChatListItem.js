@@ -1,13 +1,11 @@
 //@ts-nocheck
 import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {EvilIcons, MaterialIcons} from "@expo/vector-icons";
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import {useNavigation} from "@react-navigation/native";
 import {Auth} from "aws-amplify";
 dayjs.extend(relativeTime);
-
 
 const ChatListItem = ({chat}) => {
     const navigation = useNavigation();
