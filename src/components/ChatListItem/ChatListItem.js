@@ -20,7 +20,6 @@ const ChatListItem = ({chat}) => {
             setUser(userItem?.user);
         })();
     }, []);
-    // Loop through the users in the chat room and find the user that is not the current user
 
     return (
         <TouchableOpacity onPress={() => navigation.navigate('Chat', {id: chat?.id, name: user?.name})} activeOpacity={0.7} className="flex-row items-start mx-4 mb-6">
@@ -30,12 +29,12 @@ const ChatListItem = ({chat}) => {
             <View className="flex-1 justify-center ml-3">
                 <View className="flex-row justify-between items-center">
                     <Text numberOfLines={1} className="text-lg font-semibold">{user?.name || "Loading..."}</Text>
-                    <Text className="text-gray-500 text-[15px]">{dayjs(chat?.lastMessage?.createdAt ).fromNow()|| 'Loading...'}</Text>
+                    <Text className="text-gray-500 text-[15px]">{dayjs(chat?.LastMessage?.createdAt ).fromNow()|| 'Loading...'}</Text>
                 </View>
                 <View className="space-x-1 flex-row items-center">
                     {/*<EvilIcons name="check" size={16} color="green" />*/}
                     <Text numberOfLines={2} className="text-gray-500 text-[15px]">
-                        {chat?.lastMessage?.text || "Loading..."}
+                        {chat?.LastMessage?.text || "Loading..."}
                     </Text>
                 </View>
                 <View className=" border-b border-gray-300 mt-4"/>

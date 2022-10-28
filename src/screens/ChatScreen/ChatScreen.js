@@ -51,7 +51,7 @@ const ChatScreen = () => {
                     renderItem={({item}) => (
                     <Message message={item} />
                 )} />
-                <InputBox chatRoomID={chatRoomID} />
+                <InputBox chatRoom={chatRoom} />
             </ImageBackground>
         </KeyboardAvoidingView>
     );

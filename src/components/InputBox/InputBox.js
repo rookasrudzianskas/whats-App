@@ -4,16 +4,16 @@ import {Text, View, StyleSheet, TouchableOpacity, TextInput, SafeAreaView} from 
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {API, Auth, graphqlOperation} from "aws-amplify";
-import {createMessage} from "../../graphql/mutations";
+import {createMessage, updateChatRoom} from "../../graphql/mutations";
 
-const InputBox = ({chatRoomID}) => {
+const InputBox = ({chatRoom}) => {
     const [text, setText] = useState('');
 
     const onSend = async () => {
         const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
 
         const newMessage = {
-            chatroomID: chatRoomID,
+            chatroomID: chatRoom.id,
             text,
             userID: authUser.attributes.sub,
         };
@@ -23,6 +23,14 @@ const InputBox = ({chatRoomID}) => {
         );
 
         setText("");
+
+        API.graphql(graphqlOperation(updateChatRoom, {
+            input: {
+                _version: chatRoom._version,
+                chatRoomLastMessageId: newMessageData.data.createMessage.id,
+                id: chatRoom.id,
+            }
+        }));
     }
 
     return (
