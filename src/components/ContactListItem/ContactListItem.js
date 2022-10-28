@@ -16,22 +16,22 @@ const ContactListItem = ({user}) => {
             navigation.navigate('Chat', {id: existingChatRoom.id});
             return;
         }
-        // // if we do, navigate to the chat room
-        // // create a new chatRoom
-        // const newChatRoomData = await API.graphql(graphqlOperation(createChatRoom, { input: {}}));
-        // if(!newChatRoomData.data?.createChatRoom) {
-        //     Alert.alert("Whoops, error occurred", "Please try again later");
-        //     return;
-        // }
-        // const newChatRoom = newChatRoomData.data?.createChatRoom;
-        // // Add people to the chatRoom
-        // // Add the clicked user to the chat room
-        // await API.graphql(graphqlOperation(createUserChatRoom, { input: { chatRoomID: newChatRoom.id, userID: user.id}}));
-        // // Add authenticated user to the chat room
-        // const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-        // await API.graphql(graphqlOperation(createUserChatRoom, { input: { chatRoomID: newChatRoom.id, userID: authUser?.attributes?.sub}}));
-        // // Navigate to the chatRoom
-        // navigation.navigate("Chat", { id: newChatRoom.id });
+        // if we do, navigate to the chat room
+        // create a new chatRoom
+        const newChatRoomData = await API.graphql(graphqlOperation(createChatRoom, { input: {}}));
+        if(!newChatRoomData.data?.createChatRoom) {
+            Alert.alert("Whoops, error occurred", "Please try again later");
+            return;
+        }
+        const newChatRoom = newChatRoomData.data?.createChatRoom;
+        // Add people to the chatRoom
+        // Add the clicked user to the chat room
+        await API.graphql(graphqlOperation(createUserChatRoom, { input: { chatRoomID: newChatRoom.id, userID: user.id}}));
+        // Add authenticated user to the chat room
+        const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+        await API.graphql(graphqlOperation(createUserChatRoom, { input: { chatRoomID: newChatRoom.id, userID: authUser?.attributes?.sub}}));
+        // Navigate to the chatRoom
+        navigation.navigate("Chat", { id: newChatRoom.id });
     }
 
     return (
