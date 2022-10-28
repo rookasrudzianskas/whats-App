@@ -10,7 +10,8 @@ dayjs.extend(relativeTime);
 
 const ChatListItem = ({chat}) => {
     const navigation = useNavigation();
-    const user = chat.users.items[0];
+    // Loop through the users in the chat room and find the user that is not the current user
+    const user = chat.users.items[0].user;
 
     return (
         <TouchableOpacity onPress={() => navigation.navigate('Chat', {id: chat?.id, name: user?.name})} activeOpacity={0.7} className="flex-row items-start mx-4 mb-6">
