@@ -11,17 +11,13 @@ const ContactListItem = ({user}) => {
     const onPress = async () => {
         // check if we already have a chat room with the selected user
         // if we do, navigate to the chat room
-
         // create a new chatRoom
         const newChatRoomData = await API.graphql(graphqlOperation(createChatRoom, { input: {}}));
-
         if(!newChatRoomData.data?.createChatRoom) {
             Alert.alert("Whoops, error occurred", "Please try again later");
             return;
         }
-
         const newChatRoom = newChatRoomData.data?.createChatRoom;
-
         // Add people to the chatRoom
         // Add the clicked user to the chat room
         await API.graphql(graphqlOperation(createUserChatRoom, { input: { chatRoomID: newChatRoom.id, userID: user.id}}));
