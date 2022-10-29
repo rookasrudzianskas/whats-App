@@ -16,17 +16,21 @@ import {deleteUserChatRoom} from "../../graphql/mutations";
 
 const ChatRoomInfo = () => {
     const [chatRoom, setChatRoom] = useState(null);
+    const [loading, setLoading] = useState(false);
     const route = useRoute();
     const navigation = useNavigation();
 
     const chatroomID = route.params.id;
 
+    const fetchChatRoom = async () => {
+        setLoading(true);
+        const result = await API.graphql(graphqlOperation(getChatRoom, { id: chatroomID }))
+        setChatRoom(result.data?.getChatRoom);
+        setLoading(false);
+    }
+
     useEffect(() => {
-        API.graphql(graphqlOperation(getChatRoom, { id: chatroomID })).then(
-            (result) => {
-                setChatRoom(result.data?.getChatRoom);
-            }
-        );
+        fetchChatRoom();
         // Subscribe to onUpdateChatRoom
         const subscription = API.graphql(
             graphqlOperation(onUpdateChatRoom, {
@@ -85,6 +89,8 @@ const ChatRoomInfo = () => {
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 100 }}
+                    onRefresh={fetchChatRoom}
+                    refreshing={loading}
                     data={users}
                     renderItem={({ item }) => (
                         <ContactListItem
