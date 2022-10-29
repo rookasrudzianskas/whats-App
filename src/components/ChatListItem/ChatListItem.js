@@ -29,12 +29,14 @@ const ChatListItem = ({chat}) => {
                     <Text numberOfLines={1} className="text-lg font-semibold">{user?.name || "Loading..."}</Text>
                     <Text className="text-gray-500 text-[15px]">{dayjs(chat?.LastMessage?.createdAt ).fromNow()|| 'Loading...'}</Text>
                 </View>
-                <View className="space-x-1 flex-row items-center">
-                    {/*<EvilIcons name="check" size={16} color="green" />*/}
-                    <Text numberOfLines={2} className="text-gray-500 text-[15px]">
-                        {chat?.LastMessage?.text || "Loading..."}
-                    </Text>
-                </View>
+                    <View className="space-x-1 flex-row items-center">
+                {/*{chat?.LastMessage && (*/}
+                {/*        // <EvilIcons name="check" size={16} color="green" />*/}
+                        <Text numberOfLines={2} className="text-gray-500 text-[15px]">
+                            {chat?.LastMessage?.text || "👋 Say hello!"}
+                        </Text>
+                {/*)}*/}
+                    </View>
                 <View className=" border-b border-gray-300 mt-4"/>
             </View>
         </TouchableOpacity>
