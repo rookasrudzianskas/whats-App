@@ -44,6 +44,24 @@ const ChatRoomInfo = () => {
         return () => subscription.unsubscribe();
     }, [chatroomID]);
 
+    const removeChatRoomUser = ( ) => {
+
+    }
+
+    const onContactPress = (chatRoomUser) => {
+        Alert.alert("Removing the user", `Are you sure you want to remove ${chatRoomUser.user.name} from the group?`, [
+            {
+                text: "Cancel",
+                style: "cancel",
+            },
+            {
+                text: "Remove",
+                style: "destructive",
+                onPress: removeChatRoomUser(chatRoomUser),
+            }
+        ])
+    }
+
     if (!chatRoom) {
         return <ActivityIndicator />;
     }
@@ -62,6 +80,7 @@ const ChatRoomInfo = () => {
                     data={chatRoom.users.items}
                     renderItem={({ item }) => (
                         <ContactListItem
+                            onPress={() => onContactPress(item)}
                             user={item.user}
                         />
                     )}
