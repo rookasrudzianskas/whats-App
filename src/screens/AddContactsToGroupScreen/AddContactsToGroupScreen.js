@@ -22,7 +22,7 @@ const AddContactsToGroupScreen = () => {
                 result.data?.listUsers?.items.filter(
                     (item) =>
                         !chatRoom.users.items.some(
-                            (chatRoomUser) => item.id === chatRoomUser.userID
+                            (chatRoomUser) => !chatRoomUser._deleted && item.id === chatRoomUser.userID
                         )
                 )
             );
