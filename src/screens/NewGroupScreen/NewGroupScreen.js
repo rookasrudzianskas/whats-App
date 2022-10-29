@@ -8,7 +8,7 @@ import {listUsers} from "../../graphql/queries";
 const ContactsScreen = () => {
     const [users, setUsers] = useState([]);
     const [name, setName] = useState("");
-
+    const [selectedUserIds, setSelectedUserIds] = useState([]);
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -27,6 +27,17 @@ const ContactsScreen = () => {
 
     const onCreateGroupPress = () => {};
 
+    const onContactPress = (id) => {
+        setSelectedUserIds((userIds) => {
+            if (userIds.includes(id)) {
+                // remove id from array
+                return [...userIds].filter((uid) => uid !== id);
+            } else {
+                return [...userIds, id];
+            }
+            });
+    }
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -38,7 +49,7 @@ const ContactsScreen = () => {
             <FlatList
                 data={users}
                 renderItem={({ item }) => (
-                    <ContactListItem user={item} />
+                    <ContactListItem user={item} selectable={true} onPress={() => onContactPress(item.id)} isSelected={selectedUserIds.includes(item.id)} />
                 )}
             />
         </View>
