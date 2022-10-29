@@ -44,6 +44,7 @@ const ChatScreen = () => {
         });
 
         // Subscribe to new messages
+        // @TODO is it chatroomID or chatRoomID?
         const subscription = API.graphql(graphqlOperation(onCreateMessage,  { filter: { chatroomID: { "eq": chatRoomID}}})).subscribe({
             next: ({value}) => {
                 // console.log(value);

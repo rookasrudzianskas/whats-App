@@ -26,7 +26,7 @@ const ChatListItem = ({chat}) => {
             </View>
             <View className="flex-1 justify-center ml-3">
                 <View className="flex-row justify-between items-center">
-                    <Text numberOfLines={1} className="text-lg font-semibold">{user?.name || "Loading..."}</Text>
+                    <Text numberOfLines={1} className="text-lg font-semibold truncate">{user?.name.slice(0, 18) || "Loading..."}</Text>
                     {chat?.LastMessage && (<Text className="text-gray-500 text-[15px]">{dayjs(chat?.LastMessage?.createdAt ).fromNow()|| 'Loading...'}</Text>)}
                 </View>
                     <View className="space-x-1 flex-row items-center">
