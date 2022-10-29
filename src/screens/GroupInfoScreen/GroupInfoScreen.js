@@ -12,6 +12,7 @@ import { useRoute } from "@react-navigation/native";
 import { API, graphqlOperation } from "aws-amplify";
 import {onUpdateChatRoom} from "../../graphql/subscriptions";
 import ContactListItem from "../../components/ContactListItem";
+import {deleteUserChatRoom} from "../../graphql/mutations";
 
 const ChatRoomInfo = () => {
     const [chatRoom, setChatRoom] = useState(null);
@@ -44,8 +45,12 @@ const ChatRoomInfo = () => {
         return () => subscription.unsubscribe();
     }, [chatroomID]);
 
-    const removeChatRoomUser = ( ) => {
-
+    const removeChatRoomUser = async (chatRoomUser) => {
+        const response = await API.graphql(graphqlOperation(deleteUserChatRoom, { input: {
+                _version: chatRoomUser._version,
+                id: chatRoomUser.id,
+            }}));
+        console.log(response);
     }
 
     const onContactPress = (chatRoomUser) => {
@@ -57,7 +62,7 @@ const ChatRoomInfo = () => {
             {
                 text: "Remove",
                 style: "destructive",
-                onPress: removeChatRoomUser(chatRoomUser),
+                onPress: () => removeChatRoomUser(chatRoomUser),
             }
         ])
     }
