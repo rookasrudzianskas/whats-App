@@ -16,7 +16,6 @@ const ChatScreen = () => {
     const route = useRoute();
     const [chatRoom, setChatRoom] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [loading, setLoading] = useState(false);
     const { id, name } = route?.params;
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
