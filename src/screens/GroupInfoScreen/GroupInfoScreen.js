@@ -50,7 +50,6 @@ const ChatRoomInfo = () => {
                 _version: chatRoomUser._version,
                 id: chatRoomUser.id,
             }}));
-        console.log(response);
     }
 
     const onContactPress = (chatRoomUser) => {
@@ -71,6 +70,9 @@ const ChatRoomInfo = () => {
         return <ActivityIndicator />;
     }
 
+    // We filter it out, because AWS saves the DB user and other docs for 30 days with the _deleted tag and TTL (30 days).
+    const users = chatRoom.users.items.filter((item) => !item._deleted);
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{chatRoom.name || '👋 Story starts here'}</Text>
@@ -82,7 +84,7 @@ const ChatRoomInfo = () => {
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 100 }}
-                    data={chatRoom.users.items}
+                    data={users}
                     renderItem={({ item }) => (
                         <ContactListItem
                             onPress={() => onContactPress(item)}
