@@ -33,7 +33,7 @@ const ChatScreen = () => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: name.slice(0, 17) || 'Chat 👋',
+            title: name?.slice(0, 17) || 'Chat 👋',
             headerRight: () => (
                 <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Group Info', { id: chatRoomID})}>
                     <Feather name="more-horizontal" size={24} color="gray" />

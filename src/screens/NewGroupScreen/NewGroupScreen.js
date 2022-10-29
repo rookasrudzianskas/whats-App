@@ -29,7 +29,7 @@ const ContactsScreen = () => {
 
     const onCreateGroupPress = async () => {
         // create a new chatRoom
-        const newChatRoomData = await API.graphql(graphqlOperation(createChatRoom, { input: {}}));
+        const newChatRoomData = await API.graphql(graphqlOperation(createChatRoom, { input: { name }}));
         if(!newChatRoomData.data?.createChatRoom) {
             Alert.alert("Whoops, error occurred", "Please try again later");
             return;
