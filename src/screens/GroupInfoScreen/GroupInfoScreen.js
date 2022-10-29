@@ -5,9 +5,9 @@ import {
     View,
     Text,
     ActivityIndicator,
-    Alert,
+    Alert, TouchableOpacity,
 } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import {useNavigation, useRoute} from "@react-navigation/native";
 
 import { API, graphqlOperation } from "aws-amplify";
 import {onUpdateChatRoom} from "../../graphql/subscriptions";
@@ -17,6 +17,7 @@ import {deleteUserChatRoom} from "../../graphql/mutations";
 const ChatRoomInfo = () => {
     const [chatRoom, setChatRoom] = useState(null);
     const route = useRoute();
+    const navigation = useNavigation();
 
     const chatroomID = route.params.id;
 
@@ -93,6 +94,9 @@ const ChatRoomInfo = () => {
                     )}
                 />
             </View>
+            <TouchableOpacity onPress={() => navigation.navigate('Add Contacts', { chatRoom })} activeOpacity={0.7} className="absolute bottom-10 right-8 bg-blue-500 rounded-md py-2 px-5">
+                <Text className="font-semibold text-white">Invite Friends</Text>
+            </TouchableOpacity>
         </View>
     );
 };
