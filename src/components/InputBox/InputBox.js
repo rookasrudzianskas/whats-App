@@ -8,8 +8,11 @@ import {createMessage, updateChatRoom} from "../../graphql/mutations";
 
 const InputBox = ({chatRoom}) => {
     const [text, setText] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const onSend = async () => {
+        if(!text) return;
+        setLoading(true);
         const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
 
         const newMessage = {
@@ -31,6 +34,7 @@ const InputBox = ({chatRoom}) => {
                 id: chatRoom.id,
             }
         }));
+        setLoading(false);
     }
 
     return (
@@ -45,7 +49,7 @@ const InputBox = ({chatRoom}) => {
                        <Ionicons name="document-attach" size={19} color="#0090ff" />
                    </TouchableOpacity>
                </View>
-               <TouchableOpacity onPress={() => onSend()} activeOpacity={0.7} className="bg-[#0090ff] w-9 items-center justify-center rounded-full overflow-hidden h-9">
+               <TouchableOpacity disabled={loading} onPress={() => onSend()} activeOpacity={0.7} className={`${loading ? 'bg-gray-300' : 'bg-[#0090ff]'} w-9 items-center justify-center rounded-full overflow-hidden h-9`}>
                    <Ionicons name="ios-send-sharp" size={20} style={{marginLeft: 3}} color="white" />
                </TouchableOpacity>
            </View>

@@ -10,6 +10,7 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {API, graphqlOperation} from "aws-amplify";
 import {getChatRoom, listMessagesByChatRoom} from "../../graphql/queries";
+import {onCreateMessage} from "../../graphql/subscriptions";
 
 const ChatScreen = () => {
     const route = useRoute();
@@ -22,7 +23,7 @@ const ChatScreen = () => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: name || 'Unknown man.',
+            title: name || 'Chat 👋',
         });
     }, []);
 
@@ -35,13 +36,25 @@ const ChatScreen = () => {
         })();
     }, [chatRoomID]);
 
+    // Fetches messages
     useEffect(( ) => {
-        (async () => {
-            API.graphql(graphqlOperation(listMessagesByChatRoom, { chatroomID: chatRoomID, sortDirection: "DESC" })).then((result) => {
-                // console.log(result);
-                setMessages(result.data?.listMessagesByChatRoom.items);
-            });
-        })();
+        API.graphql(graphqlOperation(listMessagesByChatRoom, { chatroomID: chatRoomID, sortDirection: "DESC" })).then((result) => {
+            // console.log(result);
+            setMessages(result.data?.listMessagesByChatRoom.items);
+        });
+
+        // Subscribe to new messages
+        const subscription = API.graphql(graphqlOperation(onCreateMessage,  { filter: { chatroomID: { "eq": chatRoomID}}})).subscribe({
+            next: ({value}) => {
+                // console.log(value);
+                setMessages((m) => [value.data.onCreateMessage, ...m]);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+
+        return () => subscription.unsubscribe();
     }, [chatRoomID]);
 
     if(!chatRoomID) return <LoadingIndicator />
