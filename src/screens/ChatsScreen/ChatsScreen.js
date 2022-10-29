@@ -8,7 +8,8 @@ import LoadingIndicator from "../../components/LoadingIndicator";
 
 const ChatsScreen = () => {
     const [chatRooms, setChatRooms] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingOne, setLoadingOne] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchChats = async () => {
@@ -23,12 +24,12 @@ const ChatsScreen = () => {
             // console.log("Sorted Rooms", sortedRooms.map((r) => r.chatRoom.updatedAt));
 
             setChatRooms(sortedRooms);
-            setLoading(false);
+            setLoadingOne(false);
         }
         fetchChats();
     }, []);
 
-    if(loading) return <LoadingIndicator />;
+    if(loadingOne) return <LoadingIndicator />;
 
 
     return (

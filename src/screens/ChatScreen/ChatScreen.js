@@ -10,12 +10,13 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {API, graphqlOperation} from "aws-amplify";
 import {getChatRoom, listMessagesByChatRoom} from "../../graphql/queries";
-import {onCreateMessage} from "../../graphql/subscriptions";
+import {onCreateMessage, onUpdateChatRoom} from "../../graphql/subscriptions";
 
 const ChatScreen = () => {
     const route = useRoute();
     const [chatRoom, setChatRoom] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
     const { id, name } = route?.params;
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
@@ -29,11 +30,20 @@ const ChatScreen = () => {
 
     // Fetch chat room data
     useEffect(() => {
-        (async () => {
-            API.graphql(graphqlOperation(getChatRoom, { id: chatRoomID })).then((result) => {
-                setChatRoom(result.data?.getChatRoom);
-            });
-        })();
+        API.graphql(graphqlOperation(getChatRoom, { id: chatRoomID })).then((result) => {
+            setChatRoom(result.data?.getChatRoom);
+        });
+
+        const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, { filter: { id: chatRoomID }})).subscribe({
+            next: ({ value }) => {
+                setChatRoom(cr => ({...(cr || {}), ...value.data.onUpdateChatRoom}));
+            },
+            error: (error) => {
+                // console.log(error);
+            }
+        });
+
+        return () => subscription.unsubscribe();
     }, [chatRoomID]);
 
     // Fetches messages
