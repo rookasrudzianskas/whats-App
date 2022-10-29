@@ -33,7 +33,7 @@ const ChatScreen = () => {
                 setChatRoom(result.data?.getChatRoom);
             });
         })();
-    }, []);
+    }, [chatRoomID]);
 
     useEffect(( ) => {
         (async () => {
@@ -42,7 +42,7 @@ const ChatScreen = () => {
                 setMessages(result.data?.listMessagesByChatRoom.items);
             });
         })();
-    }, []);
+    }, [chatRoomID]);
 
     if(!chatRoomID) return <LoadingIndicator />
 
