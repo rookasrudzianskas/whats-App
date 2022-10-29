@@ -20,10 +20,10 @@ const ContactsScreen = () => {
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <Button title="Create" disabled={!name} onPress={onCreateGroupPress} />
+                <Button title="Create" disabled={!name || selectedUserIds.length < 1} onPress={onCreateGroupPress} />
             ),
         });
-    }, [name]);
+    }, [name, selectedUserIds]);
 
     const onCreateGroupPress = () => {};
 
@@ -49,7 +49,12 @@ const ContactsScreen = () => {
             <FlatList
                 data={users}
                 renderItem={({ item }) => (
-                    <ContactListItem user={item} selectable={true} onPress={() => onContactPress(item.id)} isSelected={selectedUserIds.includes(item.id)} />
+                    <ContactListItem
+                        user={item}
+                        selectable={true}
+                        onPress={() => onContactPress(item.id)}
+                        isSelected={selectedUserIds.includes(item.id)}
+                    />
                 )}
             />
         </View>
