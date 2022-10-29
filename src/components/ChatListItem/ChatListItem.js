@@ -24,12 +24,12 @@ const ChatListItem = ({chat}) => {
 
     // Fetch chat room data
     useEffect(() => {
-        const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, { filter: { id: chat.id }})).subscribe({
+        const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chat.id } }})).subscribe({
             next: ({ value }) => {
-                setChatRoom(cr => ({...(cr || {}), ...value.data.onUpdateChatRoom}));
+                setChatRoom((cr) => ({...(cr || {}), ...value.data.onUpdateChatRoom}));
             },
             error: (error) => {
-                // console.log(error);
+                console.log(error);
             }
         });
 

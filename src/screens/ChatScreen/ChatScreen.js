@@ -34,12 +34,12 @@ const ChatScreen = () => {
             setChatRoom(result.data?.getChatRoom);
         });
 
-        const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, { filter: { id: chatRoomID }})).subscribe({
+        const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chatRoomID} }})).subscribe({
             next: ({ value }) => {
-                setChatRoom(cr => ({...(cr || {}), ...value.data.onUpdateChatRoom}));
+                setChatRoom((cr) => ({...(cr || {}), ...value.data.onUpdateChatRoom}));
             },
             error: (error) => {
-                // console.log(error);
+                console.log(error);
             }
         });
 
