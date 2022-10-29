@@ -9,7 +9,7 @@ import {useNavigation, useRoute} from "@react-navigation/native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {API, graphqlOperation} from "aws-amplify";
-import {getChatRoom} from "../../graphql/queries";
+import {getChatRoom, listMessagesByChatRoom} from "../../graphql/queries";
 
 const ChatScreen = () => {
     const route = useRoute();
@@ -26,12 +26,20 @@ const ChatScreen = () => {
         });
     }, []);
 
+    // Fetch chat room data
     useEffect(() => {
         (async () => {
             API.graphql(graphqlOperation(getChatRoom, { id: chatRoomID })).then((result) => {
                 setChatRoom(result.data?.getChatRoom);
-                // Delete this line:
-                setMessages(result.data?.getChatRoom?.Messages?.items);
+            });
+        })();
+    }, []);
+
+    useEffect(( ) => {
+        (async () => {
+            API.graphql(graphqlOperation(listMessagesByChatRoom, { chatroomID: chatRoomID, sortDirection: "DESC" })).then((result) => {
+                // console.log(result);
+                setMessages(result.data?.listMessagesByChatRoom.items);
             });
         })();
     }, []);
