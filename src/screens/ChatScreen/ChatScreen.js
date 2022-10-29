@@ -70,6 +70,8 @@ const ChatScreen = () => {
 
     if(!chatRoomID) return <LoadingIndicator />
 
+    // console.log(JSON.stringify(chatRoom))
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
