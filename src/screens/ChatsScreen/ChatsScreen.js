@@ -11,22 +11,25 @@ const ChatsScreen = () => {
     const [loadingOne, setLoadingOne] = useState(true);
     const [loading, setLoading] = useState(false);
 
+    const fetchChatsRooms = async () => {
+        setLoading(true);
+        // fetch chats
+        const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
+        // console.log(authUser.attributes.sub);
+        const response = await API.graphql(graphqlOperation(listChatRooms, { id: authUser.attributes.sub }));
+
+        const rooms = response?.data?.getUser?.ChatRooms?.items || [];
+        // console.log("Rooms", rooms.map((r) => r.chatRoom.updatedAt));
+        const sortedRooms = rooms.sort((room1, room2) => new Date(room2.chatRoom.updatedAt) - new Date(room1.chatRoom.updatedAt));
+        // console.log("Sorted Rooms", sortedRooms.map((r) => r.chatRoom.updatedAt));
+
+        setChatRooms(sortedRooms);
+        setLoadingOne(false);
+        setLoading(false);
+    }
+
     useEffect(() => {
-        const fetchChats = async () => {
-            // fetch chats
-            const authUser = await Auth.currentAuthenticatedUser({ bypassCache: true });
-            // console.log(authUser.attributes.sub);
-            const response = await API.graphql(graphqlOperation(listChatRooms, { id: authUser.attributes.sub }));
-
-            const rooms = response?.data?.getUser?.ChatRooms?.items || [];
-            // console.log("Rooms", rooms.map((r) => r.chatRoom.updatedAt));
-            const sortedRooms = rooms.sort((room1, room2) => new Date(room2.chatRoom.updatedAt) - new Date(room1.chatRoom.updatedAt));
-            // console.log("Sorted Rooms", sortedRooms.map((r) => r.chatRoom.updatedAt));
-
-            setChatRooms(sortedRooms);
-            setLoadingOne(false);
-        }
-        fetchChats();
+        fetchChatsRooms();
     }, []);
 
     if(loadingOne) return <LoadingIndicator />;
@@ -37,6 +40,8 @@ const ChatsScreen = () => {
             <FlatList
                 data={chatRooms}
                 showsVerticalScrollIndicator={false}
+                refreshing={loading}
+                onRefresh={fetchChatsRooms}
                 renderItem={({item}) => (
                     <ChatListItem chat={item.chatRoom} />
                 )} />
