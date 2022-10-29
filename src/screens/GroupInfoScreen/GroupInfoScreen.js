@@ -75,10 +75,10 @@ const ChatRoomInfo = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{chatRoom.name || '👋 Story starts here'}</Text>
+            <Text style={styles.title}>{chatRoom?.name || '👋 Story starts here'}</Text>
 
             <Text style={styles.sectionTitle}>
-                {chatRoom.users.items.length} Participants
+                {users?.length} Participants
             </Text>
             <View style={styles.section}>
                 <FlatList
