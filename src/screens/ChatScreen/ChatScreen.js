@@ -1,6 +1,15 @@
 //@ts-nocheck
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {Text, View, StyleSheet, ImageBackground, FlatList, KeyboardAvoidingView, Platform} from 'react-native';
+import {
+    Text,
+    View,
+    StyleSheet,
+    ImageBackground,
+    FlatList,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableOpacity
+} from 'react-native';
 import bg from '../../../assets/images/BG.png';
 import messagesData from '../../../assets/data/messages.json';
 import Message from "../../components/Message";
@@ -11,6 +20,7 @@ import LoadingIndicator from "../../components/LoadingIndicator";
 import {API, graphqlOperation} from "aws-amplify";
 import {getChatRoom, listMessagesByChatRoom} from "../../graphql/queries";
 import {onCreateMessage, onUpdateChatRoom} from "../../graphql/subscriptions";
+import {Feather} from "@expo/vector-icons";
 
 const ChatScreen = () => {
     const route = useRoute();
@@ -23,9 +33,14 @@ const ChatScreen = () => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: name || 'Chat 👋',
+            title: name.slice(0, 17) || 'Chat 👋',
+            headerRight: () => (
+                <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Group Info', { id: chatRoomID})}>
+                    <Feather name="more-horizontal" size={24} color="gray" />
+                </TouchableOpacity>
+            ),
         });
-    }, []);
+    }, [route.params.name, chatRoomID]);
 
     // Fetch chat room data
     useEffect(() => {
