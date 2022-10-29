@@ -2,8 +2,9 @@
 import React from 'react';
 import {Text, View, Image, TouchableOpacity, Alert} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
+import {AntDesign, FontAwesome} from "@expo/vector-icons";
 
-const ContactListItem = ({user, onPress = () => {}}) => {
+const ContactListItem = ({user, onPress = () => {}, selectable = false, isSelected = false}) => {
     const navigation = useNavigation();
 
 
@@ -15,7 +16,7 @@ const ContactListItem = ({user, onPress = () => {}}) => {
             </View>
             <View className="flex-1 justify-center ml-3">
                 <View className="flex-row justify-between items-center">
-                    <Text numberOfLines={1} className="text-lg font-semibold">{user?.name || "Loading..."}</Text>
+                    <Text numberOfLines={1} className="text-lg font-semibold">{user?.name.slice(0, 17) || "Loading..."}</Text>
                 </View>
                 {user?.status && (
                     <View className="space-x-1 flex-row items-center">
@@ -27,6 +28,12 @@ const ContactListItem = ({user, onPress = () => {}}) => {
                 )}
 
             </View>
+            {selectable &&
+                (isSelected ? (
+                    <AntDesign name="checkcircle" size={20} color="royalblue" />
+                ) : (
+                    <FontAwesome name="circle-thin" size={20} color="lightgray" />
+                ))}
         </TouchableOpacity>
     );
 };
