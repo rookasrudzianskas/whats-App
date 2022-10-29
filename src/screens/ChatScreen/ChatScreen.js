@@ -47,6 +47,7 @@ const ChatScreen = () => {
 
     // Fetches messages
     useEffect(( ) => {
+        // console.log('Fetching messages...',chatRoomID);
         API.graphql(graphqlOperation(listMessagesByChatRoom, { chatroomID: chatRoomID, sortDirection: "DESC" })).then((result) => {
             // console.log(result);
             setMessages(result.data?.listMessagesByChatRoom.items);
