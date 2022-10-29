@@ -16,8 +16,6 @@ const AddContactsToGroupScreen = () => {
 
     useEffect(() => {
         API.graphql(graphqlOperation(listUsers)).then((result) => {
-            // console.log("RESULT>>", JSON.stringify(result.users.items, null, 2));
-            // console.log("ChatRoom>>", JSON.stringify(chatRoom.users.items, null, 2));
             setUsers(
                 result.data?.listUsers?.items.filter(
                     (item) =>
