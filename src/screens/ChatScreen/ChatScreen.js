@@ -14,6 +14,7 @@ import {getChatRoom} from "../../graphql/queries";
 const ChatScreen = () => {
     const route = useRoute();
     const [chatRoom, setChatRoom] = useState(null);
+    const [messages, setMessages] = useState([]);
     const { id, name } = route?.params;
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
@@ -27,11 +28,13 @@ const ChatScreen = () => {
 
     useEffect(() => {
         (async () => {
-            API.graphql(graphqlOperation(getChatRoom, { id: chatRoomID })).then((result) => setChatRoom(result.data?.getChatRoom));
+            API.graphql(graphqlOperation(getChatRoom, { id: chatRoomID })).then((result) => {
+                setChatRoom(result.data?.getChatRoom);
+                // Delete this line:
+                setMessages(result.data?.getChatRoom?.Messages?.items);
+            });
         })();
     }, []);
-
-    // console.log(chatRoom);
 
     if(!chatRoomID) return <LoadingIndicator />
 
@@ -44,7 +47,7 @@ const ChatScreen = () => {
             <ImageBackground source={bg} className="h-full">
                 <FlatList
                     // style={{backgroundColor: 'white'}}
-                    data={chatRoom?.Messages.items}
+                    data={messages}
                     showsVerticalScrollIndicator={false}
                     style={styles.list}
                     inverted={true}
