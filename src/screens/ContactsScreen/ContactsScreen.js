@@ -5,9 +5,11 @@ import {API, graphqlOperation} from "aws-amplify";
 import {listUsers} from "../../graphql/queries";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {MaterialIcons} from "@expo/vector-icons";
+import {useNavigation} from "@react-navigation/native";
 
 const ContactsScreen = () => {
     const [users, setUsers] = useState([]);
+    const navigation = useNavigation();
 
     useEffect(() => {
         API.graphql(graphqlOperation(listUsers)).then((res) => {
@@ -27,7 +29,7 @@ const ContactsScreen = () => {
                 style={{ backgroundColor: 'white' }}
                 ListHeaderComponent={() => (
                     <TouchableOpacity className="border rounded border-gray-300 mx-3 py-2 px-3 mb-4" activeOpacity={0.7}
-                        onPress={() => {}}
+                        onPress={() => navigation.navigate('New Group')}
                         style={{
                             flexDirection: "row",
                             alignItems: "center",
