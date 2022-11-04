@@ -33,7 +33,6 @@ const Message = ({message}) => {
         })();
     }, [message.images]);
 
-
     return (
         <View className="shadow-sm" style={[styles.container, {
             backgroundColor: isMe ? '#DCF8C5' : 'white',
@@ -49,7 +48,7 @@ const Message = ({message}) => {
                                         styles.imageContainer,
                                         imageSources.length === 1 && { flex: 1 },
                                     ]}
-                                    key={index} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
+                                    key={imageSource} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
                                     <Image source={imageSource} style={styles.image} />
                                 </TouchableOpacity>
 
