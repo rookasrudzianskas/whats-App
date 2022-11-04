@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, TextInput, SafeAreaView, Image} from 'react-native';
 import {AntDesign, Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {API, Auth, graphqlOperation} from "aws-amplify";
+import {API, Auth, graphqlOperation, Storage} from "aws-amplify";
 import {createMessage, updateChatRoom} from "../../graphql/mutations";
 import * as ImagePicker from "expo-image-picker";
 import 'react-native-get-random-values';
