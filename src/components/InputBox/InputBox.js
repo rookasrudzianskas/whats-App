@@ -25,9 +25,9 @@ const InputBox = ({chatRoom}) => {
             userID: authUser.attributes.sub,
         };
 
-        if (images) {
-            newMessage.images = [await uploadFile(images)];
-            setImages(null);
+        if (images.length > 0) {
+            newMessage.images = await Promise.all(images.map(uploadFile));
+            setImages([]);
         }
 
         const newMessageData = await API.graphql(
@@ -94,7 +94,7 @@ const InputBox = ({chatRoom}) => {
                                 <TouchableOpacity style={styles.removeSelectedImage} activeOpacity={0.7}>
                                     <MaterialIcons
                                         name="highlight-remove"
-                                        // onPress={() => setImages(null)}
+                                        onPress={() => setImages((existingImages) => existingImages.filter((image) => image !== item))}
                                         size={20}
                                         color="gray"
                                     />
