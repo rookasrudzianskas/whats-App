@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, TextInput, SafeAreaView, Image} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, TextInput, SafeAreaView, Image, FlatList} from 'react-native';
 import {AntDesign, Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {API, Auth, graphqlOperation, Storage} from "aws-amplify";
@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const InputBox = ({chatRoom}) => {
     const [text, setText] = useState("");
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const onSend = async () => {
@@ -25,9 +25,9 @@ const InputBox = ({chatRoom}) => {
             userID: authUser.attributes.sub,
         };
 
-        if (image) {
-            newMessage.images = [await uploadFile(image)];
-            setImage(null);
+        if (images) {
+            newMessage.images = [await uploadFile(images)];
+            setImages(null);
         }
 
         const newMessageData = await API.graphql(
@@ -51,10 +51,15 @@ const InputBox = ({chatRoom}) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             quality: 1,
+            allowsMultipleSelection: true,
         });
 
         if (!result.cancelled) {
-            setImage(result.uri);
+            if (result.selected) {
+                setImages(result.selected.map((asset) => asset.uri));
+            } else {
+                setImages([result.uri]);
+            }
         }
     };
 
@@ -75,21 +80,30 @@ const InputBox = ({chatRoom}) => {
 
     return (
         <>
-            {image && (
+            {images.length > 0 && (
                 <View style={styles.attachmentsContainer}>
-                    <Image
-                        source={{ uri: image || "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png" }}
-                        style={styles.selectedImage}
-                        resizeMode="contain"
+                    <FlatList
+                        data={images}
+                        renderItem={({item}) => (
+                            <>
+                                <Image
+                                    source={{ uri: item || "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png" }}
+                                    style={styles.selectedImage}
+                                    resizeMode="contain"
+                                />
+                                <TouchableOpacity style={styles.removeSelectedImage} activeOpacity={0.7}>
+                                    <MaterialIcons
+                                        name="highlight-remove"
+                                        // onPress={() => setImages(null)}
+                                        size={20}
+                                        color="gray"
+                                    />
+                                </TouchableOpacity>
+                            </>
+                            )}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
                     />
-                    <TouchableOpacity style={styles.removeSelectedImage} activeOpacity={0.7}>
-                        <MaterialIcons
-                            name="highlight-remove"
-                            onPress={() => setImage(null)}
-                            size={20}
-                            color="gray"
-                        />
-                    </TouchableOpacity>
                 </View>
             )}
             <SafeAreaView edges={['bottom']} style={styles.container}>
