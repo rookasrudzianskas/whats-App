@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
-import {Auth} from "aws-amplify";
+import {Auth, Storage} from "aws-amplify";
 import { S3Image } from "aws-amplify-react-native/dist/Storage";
 
 dayjs.extend(relativeTime);
