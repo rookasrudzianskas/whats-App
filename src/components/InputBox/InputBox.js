@@ -25,6 +25,11 @@ const InputBox = ({chatRoom}) => {
             userID: authUser.attributes.sub,
         };
 
+        if (image) {
+            newMessage.images = [await uploadFile(image)];
+            setImage(null);
+        }
+
         const newMessageData = await API.graphql(
             graphqlOperation(createMessage, { input: newMessage })
         );
@@ -47,8 +52,6 @@ const InputBox = ({chatRoom}) => {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             quality: 1,
         });
-
-        // console.log(result);
 
         if (!result.cancelled) {
             setImage(result.uri);
