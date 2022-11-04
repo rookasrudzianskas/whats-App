@@ -59,7 +59,7 @@ const InputBox = ({chatRoom}) => {
             {image && (
                 <View style={styles.attachmentsContainer}>
                     <Image
-                        source={{ uri: image }}
+                        source={{ uri: image || "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png" }}
                         style={styles.selectedImage}
                         resizeMode="contain"
                     />
