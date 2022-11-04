@@ -16,5 +16,11 @@ export type AmplifyDependentResourcesAttributes = {
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
+    },
+    "storage": {
+        "s3whatsappstorageb8e8eca3": {
+            "BucketName": "string",
+            "Region": "string"
+        }
     }
 }

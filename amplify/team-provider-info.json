@@ -17,6 +17,9 @@
       },
       "api": {
         "WhatsApp": {}
+      },
+      "storage": {
+        "s3whatsappstorageb8e8eca3": {}
       }
     }
   }
