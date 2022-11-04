@@ -5,9 +5,11 @@ import {AntDesign, Ionicons} from "@expo/vector-icons";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {API, Auth, graphqlOperation} from "aws-amplify";
 import {createMessage, updateChatRoom} from "../../graphql/mutations";
+import * as ImagePicker from "expo-image-picker";
 
 const InputBox = ({chatRoom}) => {
-    const [text, setText] = useState('');
+    const [text, setText] = useState("");
+    const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const onSend = async () => {
@@ -37,10 +39,25 @@ const InputBox = ({chatRoom}) => {
         setLoading(false);
     }
 
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
+
+
     return (
         <SafeAreaView edges={['bottom']} style={styles.container}>
            <View className="flex-row items-center px-3 bg-white">
-               <TouchableOpacity activeOpacity={0.7} className="py-3">
+               <TouchableOpacity onPress={pickImage} activeOpacity={0.7} className="py-3">
                    <AntDesign name="plus" size={24} color="#0090ff" />
                </TouchableOpacity>
                <View className="flex-1 flex-row items-center border border-gray-300 rounded-full mx-3 px-3 py-[5px]">
