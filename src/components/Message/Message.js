@@ -54,7 +54,7 @@ const Message = ({message}) => {
                                 </TouchableOpacity>
 
                                 <ImageView
-                                    images={imageSource}
+                                    images={imageSources}
                                     imageIndex={0}
                                     visible={imageViewerVisible}
                                     onRequestClose={() => setImageViewerVisible(false)}
