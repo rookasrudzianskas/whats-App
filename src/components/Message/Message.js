@@ -1,10 +1,10 @@
 //@ts-nocheck
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import {Auth, Storage} from "aws-amplify";
-import { S3Image } from "aws-amplify-react-native/dist/Storage";
+import ImageView from "react-native-image-viewing";
 
 dayjs.extend(relativeTime);
 
@@ -12,6 +12,7 @@ dayjs.extend(relativeTime);
 const Message = ({message}) => {
     const [isMe, setIsMe] = useState(false);
     const [imageSources, setImageSources] = useState([]);
+    const [imageViewerVisible, setImageViewerVisible] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -34,8 +35,19 @@ const Message = ({message}) => {
             backgroundColor: isMe ? '#DCF8C5' : 'white',
             alignSelf: isMe ? 'flex-end' : 'flex-start',
         }]}>
-            {message?.images?.length > 0 && (
-                <S3Image imgKey={message.images[0]} style={styles.image} />
+            {imageSources?.length > 0 && (
+                <>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
+                        <Image source={imageSources[0]} style={styles.image} />
+                    </TouchableOpacity>
+
+                    <ImageView
+                        images={imageSources}
+                        imageIndex={0}
+                        visible={imageViewerVisible}
+                        onRequestClose={() => setImageViewerVisible(false)}
+                    />
+                </>
             )}
             <Text>{message?.text}</Text>
             <Text className="mt-2" style={styles.time}>{dayjs(message?.createdAt).fromNow() || 'Loading...'}</Text>
