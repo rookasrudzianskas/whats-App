@@ -11,6 +11,7 @@ dayjs.extend(relativeTime);
 
 const Message = ({message}) => {
     const [isMe, setIsMe] = useState(false);
+    const [imageSources, setImageSources] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -18,6 +19,15 @@ const Message = ({message}) => {
             setIsMe(message.userID === authUser.attributes.sub);
         })();
     }, []);
+
+    useEffect(() => {
+        (async () => {
+            if (message.images) {
+                const imageUrls = await Promise.all(message.images.map(Storage.get));
+                setImageSources(imageUrls.map((uri) => ({ uri })));
+            }
+        })();
+    }, [message.images]);
 
     return (
         <View className="shadow-sm" style={[styles.container, {
