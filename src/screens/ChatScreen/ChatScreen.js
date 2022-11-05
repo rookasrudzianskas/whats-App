@@ -84,8 +84,21 @@ const ChatScreen = () => {
         // Subscribe to the new attachments
         const subscriptionAttachments = API.graphql(graphqlOperation(onCreateAttachment,  { filter: { chatroomID: { "eq": chatRoomID}}})).subscribe({
             next: ({value}) => {
-                // console.log(value);
-                setMessages((m) => [value.data.onCreateMessage, ...m]);
+                console.log("New attachment", value);
+                const newAttachment = value.data.onCreateAttachment;
+                // setMessages((m) => [value.data.onCreateMessage, ...m]);
+                setMessages((existingMessages) => {
+                    const index = existingMessages.findIndex((em) => em.id === newAttachment.messageID);
+                    return existingMessages.splice(index, 1, {
+                        ...existingMessages[index],
+                        Attachments: {
+                            items: [
+                                ...existingMessages[index].Attachments.items,
+                                newAttachment
+                            ]
+                        }
+                    });
+                })
             },
             error: (error) => {
                 console.log(error);
