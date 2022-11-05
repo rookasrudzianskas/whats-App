@@ -46,7 +46,7 @@ const InputBox = ({chatRoom}) => {
         setLoading(false);
     }
 
-    const addAttachment = async (file, messageId) => {
+    const addAttachment = async (file, messageID) => {
         const types = {
             image: "IMAGE",
             video: "VIDEO",
