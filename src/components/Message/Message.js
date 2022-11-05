@@ -7,6 +7,8 @@ import {Auth, Storage} from "aws-amplify";
 import ImageView from "react-native-image-viewing";
 import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
 import {Video} from "expo-av";
+import ImageAttachments from "./components/ImageAttachments";
+import VideoAttachments from "./components/VideoAttachments";
 
 dayjs.extend(relativeTime);
 
@@ -48,44 +50,14 @@ const Message = ({message}) => {
             backgroundColor: isMe ? '#DCF8C5' : 'white',
             alignSelf: isMe ? 'flex-end' : 'flex-start',
         }]}>
-            {downloadAttachments?.length > 0 && (
-                <View style={{ width: imageContainerWidth }}>
-                    <View style={styles.images}>
-                        {downloadAttachments.map((attachment, index) => attachment.type === 'IMAGE' ? (
-                            <>
-                                <TouchableOpacity
-                                    style={[
-                                        styles.imageContainer,
-                                        downloadAttachments.length === 1 && { flex: 1 },
-                                    ]}
-                                    key={attachment.uri} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
-                                    <Image source={{ uri: attachment.uri }} style={styles.image} />
-                                </TouchableOpacity>
+            {downloadAttachments.length > 0 && (
+                <View style={[{ width: imageContainerWidth }, styles.images]}>
+                    <ImageAttachments attachments={imageAttachments} />
 
-                                <ImageView
-                                    images={downloadAttachments.map(({ uri }) => ({ uri }))}
-                                    imageIndex={0}
-                                    visible={imageViewerVisible}
-                                    onRequestClose={() => setImageViewerVisible(false)}
-                                />
-                            </>
-                        ) : (
-                            <Video
-                                useNativeControls
-                                source={{
-                                    uri: attachment.uri,
-                                }}
-                                shouldPlay={false}
-                                style={{
-                                    width: imageContainerWidth,
-                                    height:
-                                        (attachment.height * imageContainerWidth) /
-                                        attachment.width,
-                                }}
-                                resizeMode="contain"
-                            />
-                        ))}
-                    </View>
+                    <VideoAttachments
+                        attachments={videoAttachments}
+                        width={imageContainerWidth}
+                    />
                 </View>
             )}
             <Text>{message?.text}</Text>
