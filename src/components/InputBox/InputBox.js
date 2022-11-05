@@ -16,7 +16,7 @@ const InputBox = ({chatRoom}) => {
     const [progresses, setProgresses] = useState({});
 
     const onSend = async () => {
-        // if(!text) return;
+        if(!text) return;
         setLoading(true);
         const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
 
@@ -97,7 +97,6 @@ const InputBox = ({chatRoom}) => {
             console.log("Error uploading file:", err);
         }
     };
-
 
     return (
         <>
