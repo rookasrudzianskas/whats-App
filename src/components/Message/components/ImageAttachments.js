@@ -11,9 +11,9 @@ const ImageAttachments = ({ attachments }) => {
                 <TouchableOpacity
                     style={[
                         styles.imageContainer,
-                        downloadAttachments.length === 1 && { flex: 1 },
+                        attachments.length === 1 && { flex: 1 },
                     ]}
-                    key={attachment.uri} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
+                    key={attachment.id} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
                     <Image source={{ uri: attachment.uri }} style={styles.image} />
                 </TouchableOpacity>
             ))}
