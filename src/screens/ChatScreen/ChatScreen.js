@@ -81,22 +81,30 @@ const ChatScreen = () => {
             }
         });
 
-        // Subscribe to the new attachments
-        const subscriptionAttachments = API.graphql(graphqlOperation(onCreateAttachment,  { filter: { chatroomID: { "eq": chatRoomID}}})).subscribe({
-            next: ({value}) => {
+        // Subscribe to new attachments
+        const subscriptionAttachments = API.graphql(
+            graphqlOperation(onCreateAttachment, {
+                filter: { chatroomID: { eq: chatRoomID } },
+            })
+        ).subscribe({
+            next: ({ value }) => {
                 const newAttachment = value.data.onCreateAttachment;
                 setMessages((existingMessages) => {
                     const messageToUpdate = existingMessages.find(
                         (em) => em.id === newAttachment.messageID
                     );
-                    if(!messageToUpdate) return existingMessages;
-                    if(!messageToUpdate?.Attachments?.items) {
+                    if (!messageToUpdate) {
+                        return existingMessages;
+                    }
+                    if (!messageToUpdate?.Attachments?.items) {
                         messageToUpdate.Attachments.items = [];
                     }
                     messageToUpdate.Attachments.items.push(newAttachment);
 
-                    return existingMessages.map((m) => m.id === messageToUpdate.id ? messageToUpdate : m);
-                })
+                    return existingMessages.map((m) =>
+                        m.id === messageToUpdate.id ? messageToUpdate : m
+                    );
+                });
             },
             error: (error) => {
                 console.log(error);

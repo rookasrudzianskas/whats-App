@@ -28,6 +28,7 @@ const Message = ({message}) => {
     }, []);
 
     useEffect(() => {
+        console.log("Should we download or not?")
         const downloadAttachments = async () => {
             if (message.Attachments.items) {
                 const downloadedAttachments = await Promise.all(
