@@ -59,7 +59,6 @@ const InputBox = ({chatRoom}) => {
             messageID,
             chatroomID: chatRoom.id,
         }
-        console.log(newAttachment);
         return API.graphql(graphqlOperation(createAttachment, {input: newAttachment}));
     }
 
