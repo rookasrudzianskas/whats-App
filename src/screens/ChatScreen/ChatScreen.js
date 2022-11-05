@@ -19,7 +19,7 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {API, graphqlOperation} from "aws-amplify";
 import {getChatRoom} from "../../graphql/queries";
-import {onCreateMessage, onUpdateChatRoom} from "../../graphql/subscriptions";
+import {onCreateAttachment, onCreateMessage, onUpdateChatRoom} from "../../graphql/subscriptions";
 import {Feather} from "@expo/vector-icons";
 import {listMessagesByChatRoom} from "./chatScreenQueries";
 
@@ -81,7 +81,21 @@ const ChatScreen = () => {
             }
         });
 
-        return () => subscription.unsubscribe();
+        // Subscribe to the new attachments
+        const subscriptionAttachments = API.graphql(graphqlOperation(onCreateAttachment,  { filter: { chatroomID: { "eq": chatRoomID}}})).subscribe({
+            next: ({value}) => {
+                // console.log(value);
+                setMessages((m) => [value.data.onCreateMessage, ...m]);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+
+        return () => {
+            subscription.unsubscribe();
+            subscriptionAttachments.unsubscribe();
+        };
     }, [chatRoomID]);
 
     if(!chatRoomID) return <LoadingIndicator />
