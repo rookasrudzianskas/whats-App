@@ -52,10 +52,10 @@ const Message = ({message}) => {
         }]}>
             {downloadAttachments.length > 0 && (
                 <View style={[{ width: imageContainerWidth }, styles.images]}>
-                    <ImageAttachments attachments={imageAttachments} />
+                    <ImageAttachments attachments={downloadAttachments} />
 
                     <VideoAttachments
-                        attachments={videoAttachments}
+                        attachments={downloadAttachments}
                         width={imageContainerWidth}
                     />
                 </View>
