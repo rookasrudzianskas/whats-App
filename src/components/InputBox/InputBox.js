@@ -13,7 +13,7 @@ const InputBox = ({chatRoom}) => {
     const [text, setText] = useState("");
     const [loading, setLoading] = useState(false);
     const [files, setFiles] = useState([]);
-    const [progresses, setProgresses] = useState([]);
+    const [progresses, setProgresses] = useState({});
 
     const onSend = async () => {
         // if(!text) return;
@@ -32,7 +32,7 @@ const InputBox = ({chatRoom}) => {
 
         setText("");
 
-        await Promise.all(files.map((file) => addAttachment(file, newMessageData.data.createMessage.id)));
+        await Promise.all(files.map((file, index) => addAttachment(file, newMessageData.data.createMessage.id)));
 
         setFiles([]);
 
@@ -89,7 +89,7 @@ const InputBox = ({chatRoom}) => {
                 contentType: "image/png", // contentType is optional
                 progressCallback:  (progress) => {
                     // console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-                    setProgresses();
+                    setProgresses((p) => ({...p, [fileUri]: progress.loaded / progress.total}));
                 }
             });
             return key;
@@ -113,9 +113,12 @@ const InputBox = ({chatRoom}) => {
                                     resizeMode="contain"
                                     className="relative"
                                 />
-                                <View className="absolute top-1/4 left-1/4 bg-gray-300/40 p-2 rounded-lg">
-                                    <Text className="font-semibold text-lg text-white font-bold">58%</Text>
-                                </View>
+                                {/* @TODO fix this style */}
+                                {progresses[item.uri] && (
+                                    <View className="absolute top-1/4 left-1/4 bg-gray-300/40 p-2 rounded-lg">
+                                        <Text className="font-semibold text-lg text-white font-bold">{(progresses[item.uri] * 100).toFixed(0)}%</Text>
+                                    </View>
+                                    )}
                                 <TouchableOpacity style={styles.removeSelectedImage} activeOpacity={0.7}>
                                     <MaterialIcons
                                         name="highlight-remove"
