@@ -36,6 +36,8 @@ const InputBox = ({chatRoom}) => {
 
         setText("");
 
+        await Promise.all(images.map((img) => addAttachment(img, newMessageData.data.createMessage.id)));
+
         API.graphql(graphqlOperation(updateChatRoom, {
             input: {
                 _version: chatRoom._version,
@@ -53,12 +55,14 @@ const InputBox = ({chatRoom}) => {
         };
         const newAttachment = {
             storageKey: await uploadFile(file),
-            type: types[file.type],
-            width: file.width,
-            height: file.height,
-            duration: file.duration,
+            type: "IMAGE",
+            width: 0,
+            height: 0,
+            duration: 0,
             messageID,
+            chatRoomID: chatRoom.id,
         }
+        console.log(newAttachment);
         return API.graphql(graphqlOperation(createAttachment, {input: newAttachment}));
     }
 
@@ -70,8 +74,11 @@ const InputBox = ({chatRoom}) => {
             allowsMultipleSelection: true,
         });
 
+        // console.log(result);
+
         if (!result.cancelled) {
             if (result.selected) {
+                // user selected multiple files
                 setImages(result.selected.map((asset) => asset.uri));
             } else {
                 setImages([result.uri]);
