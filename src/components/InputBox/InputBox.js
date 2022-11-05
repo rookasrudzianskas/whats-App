@@ -13,6 +13,7 @@ const InputBox = ({chatRoom}) => {
     const [text, setText] = useState("");
     const [loading, setLoading] = useState(false);
     const [files, setFiles] = useState([]);
+    const [progresses, setProgresses] = useState([]);
 
     const onSend = async () => {
         // if(!text) return;
@@ -87,7 +88,8 @@ const InputBox = ({chatRoom}) => {
             await Storage.put(key, blob, {
                 contentType: "image/png", // contentType is optional
                 progressCallback:  (progress) => {
-                    console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+                    // console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+                    setProgresses();
                 }
             });
             return key;
@@ -109,7 +111,11 @@ const InputBox = ({chatRoom}) => {
                                     source={{ uri: item.uri || "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png" }}
                                     style={styles.selectedImage}
                                     resizeMode="contain"
+                                    className="relative"
                                 />
+                                <View className="absolute top-1/4 left-1/4 bg-gray-300/40 p-2 rounded-lg">
+                                    <Text className="font-semibold text-lg text-white font-bold">58%</Text>
+                                </View>
                                 <TouchableOpacity style={styles.removeSelectedImage} activeOpacity={0.7}>
                                     <MaterialIcons
                                         name="highlight-remove"
