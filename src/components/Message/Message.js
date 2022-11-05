@@ -28,7 +28,6 @@ const Message = ({message}) => {
     }, []);
 
     useEffect(() => {
-        console.log("Should we download or not?")
         const downloadAttachments = async () => {
             if (message.Attachments.items) {
                 const downloadedAttachments = await Promise.all(
@@ -40,6 +39,7 @@ const Message = ({message}) => {
                     )
                 );
 
+                // console.log("Downloaded attachments", downloadedAttachments);
                 setDownloadedAttachments(downloadedAttachments);
             }
         };
@@ -48,8 +48,6 @@ const Message = ({message}) => {
 
     const imageAttachments = downloadAttachments.filter(attachment => attachment.type === 'IMAGE');
     const videoAttachments = downloadAttachments.filter(attachment => attachment.type === 'VIDEO');
-
-    console.log("Image attachments", JSON.stringify(imageAttachments));
 
     return (
         <View className="shadow-sm" style={[styles.container, {
