@@ -11,11 +11,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 const InputBox = ({chatRoom}) => {
     const [text, setText] = useState("");
-    const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [files, setFiles] = useState([]);
 
     const onSend = async () => {
-        if(!text) return;
+        // if(!text) return;
         setLoading(true);
         const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
 
@@ -25,18 +25,15 @@ const InputBox = ({chatRoom}) => {
             userID: authUser.attributes.sub,
         };
 
-        // if (images.length > 0) {
-        //     newMessage.images = await Promise.all(images.map(uploadFile));
-        //     setImages([]);
-        // }
-
         const newMessageData = await API.graphql(
             graphqlOperation(createMessage, { input: newMessage })
         );
 
         setText("");
 
-        await Promise.all(images.map((img) => addAttachment(img, newMessageData.data.createMessage.id)));
+        await Promise.all(files.map((file) => addAttachment(file, newMessageData.data.createMessage.id)));
+
+        setFiles([]);
 
         API.graphql(graphqlOperation(updateChatRoom, {
             input: {
@@ -54,13 +51,13 @@ const InputBox = ({chatRoom}) => {
             video: "VIDEO",
         };
         const newAttachment = {
-            storageKey: await uploadFile(file),
-            type: "IMAGE",
-            width: 0,
-            height: 0,
-            duration: 0,
+            storageKey: await uploadFile(file.uri),
+            type: "IMAGE", // TODO: videos
+            width: file.width,
+            height: file.height,
+            duration: file.duration,
             messageID,
-            chatRoomID: chatRoom.id,
+            chatroomID: chatroom.id,
         }
         console.log(newAttachment);
         return API.graphql(graphqlOperation(createAttachment, {input: newAttachment}));
@@ -74,14 +71,11 @@ const InputBox = ({chatRoom}) => {
             allowsMultipleSelection: true,
         });
 
-        // console.log(result);
-
         if (!result.cancelled) {
             if (result.selected) {
-                // user selected multiple files
-                setImages(result.selected.map((asset) => asset.uri));
+                setFiles(result.selected);
             } else {
-                setImages([result.uri]);
+                setFiles([result]);
             }
         }
     };
@@ -103,21 +97,21 @@ const InputBox = ({chatRoom}) => {
 
     return (
         <>
-            {images.length > 0 && (
+            {files.length > 0 && (
                 <View style={styles.attachmentsContainer}>
                     <FlatList
-                        data={images}
+                        data={files}
                         renderItem={({item}) => (
                             <>
                                 <Image
-                                    source={{ uri: item || "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png" }}
+                                    source={{ uri: item.uri || "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png" }}
                                     style={styles.selectedImage}
                                     resizeMode="contain"
                                 />
                                 <TouchableOpacity style={styles.removeSelectedImage} activeOpacity={0.7}>
                                     <MaterialIcons
                                         name="highlight-remove"
-                                        onPress={() => setImages((existingImages) => existingImages.filter((image) => image !== item))}
+                                        onPress={() => setFiles((existingFiles) => existingFiles.filter((file) => file !== item))}
                                         size={20}
                                         color="gray"
                                     />

@@ -95,8 +95,9 @@ const ChatScreen = () => {
         >
             <ImageBackground source={bg} className="h-full">
                 <FlatList
+                    keyExtractor={(item) => item.id}
                     // style={{backgroundColor: 'white'}}
-                    data={messages}
+                    data={messages}s
                     showsVerticalScrollIndicator={false}
                     style={styles.list}
                     inverted={true}
