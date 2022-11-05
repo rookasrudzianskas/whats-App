@@ -70,31 +70,39 @@ export default Message;
 
 const styles = StyleSheet.create({
     container: {
-        padding: 10,
         margin: 5,
+        padding: 10,
         borderRadius: 10,
-        maxWidth: '80%',
+        maxWidth: "80%",
 
+        // Shadows
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.0,
+
+        elevation: 1,
     },
     time: {
-        color: 'grey',
-        alignSelf: 'flex-end',
-    },
-    image: {
-        flex: 1,
-        borderColor: "#F4F6F7",
-        borderWidth: 2,
-        borderRadius: 5,
-        marginBottom: 8,
+        color: "gray",
+        alignSelf: "flex-end",
     },
     images: {
         flexDirection: "row",
         flexWrap: "wrap",
     },
     imageContainer: {
-        width: "45%",
+        width: "50%",
         aspectRatio: 1,
+        padding: 3,
+    },
+    image: {
+        flex: 1,
         borderColor: "white",
-        margin: 2,
-    }
+        borderWidth: 1,
+        borderRadius: 5,
+    },
 });
