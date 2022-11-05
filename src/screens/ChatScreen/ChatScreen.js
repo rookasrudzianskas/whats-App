@@ -87,8 +87,10 @@ const ChatScreen = () => {
                 console.log("New attachment", value);
                 const newAttachment = value.data.onCreateAttachment;
                 // setMessages((m) => [value.data.onCreateMessage, ...m]);
+
                 setMessages((existingMessages) => {
                     const index = existingMessages.findIndex((em) => em.id === newAttachment.messageID);
+                    if(index === -1) return existingMessages;
                     return existingMessages.splice(index, 1, {
                         ...existingMessages[index],
                         Attachments: {
