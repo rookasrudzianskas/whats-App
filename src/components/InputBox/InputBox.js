@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, TouchableOpacity, TextInput, SafeAreaView, Image
 import {AntDesign, Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {API, Auth, graphqlOperation, Storage} from "aws-amplify";
-import {createMessage, updateChatRoom} from "../../graphql/mutations";
+import {createAttachment, createMessage, updateChatRoom} from "../../graphql/mutations";
 import * as ImagePicker from "expo-image-picker";
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,10 +25,10 @@ const InputBox = ({chatRoom}) => {
             userID: authUser.attributes.sub,
         };
 
-        if (images.length > 0) {
-            newMessage.images = await Promise.all(images.map(uploadFile));
-            setImages([]);
-        }
+        // if (images.length > 0) {
+        //     newMessage.images = await Promise.all(images.map(uploadFile));
+        //     setImages([]);
+        // }
 
         const newMessageData = await API.graphql(
             graphqlOperation(createMessage, { input: newMessage })
@@ -44,6 +44,22 @@ const InputBox = ({chatRoom}) => {
             }
         }));
         setLoading(false);
+    }
+
+    const addAttachment = async (file, messageId) => {
+        const types = {
+            image: "IMAGE",
+            video: "VIDEO",
+        };
+        const newAttachment = {
+            storageKey: await uploadFile(file),
+            type: types[file.type],
+            width: file.width,
+            height: file.height,
+            duration: file.duration,
+            messageID,
+        }
+        return API.graphql(graphqlOperation(createAttachment, {input: newAttachment}));
     }
 
     const pickImage = async () => {
