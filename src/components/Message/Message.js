@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import {Auth, Storage} from "aws-amplify";
 import ImageView from "react-native-image-viewing";
 import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
+import {Video} from "expo-av";
 
 dayjs.extend(relativeTime);
 
@@ -50,15 +51,15 @@ const Message = ({message}) => {
             {downloadAttachments?.length > 0 && (
                 <View style={{ width: imageContainerWidth }}>
                     <View style={styles.images}>
-                        {downloadAttachments.map((imageSource, index) => (
+                        {downloadAttachments.map((attachment, index) => attachment.type === 'IMAGE' ? (
                             <>
                                 <TouchableOpacity
                                     style={[
                                         styles.imageContainer,
                                         downloadAttachments.length === 1 && { flex: 1 },
                                     ]}
-                                    key={imageSource.uri} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
-                                    <Image source={{ uri: imageSource.uri }} style={styles.image} />
+                                    key={attachment.uri} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
+                                    <Image source={{ uri: attachment.uri }} style={styles.image} />
                                 </TouchableOpacity>
 
                                 <ImageView
@@ -68,6 +69,21 @@ const Message = ({message}) => {
                                     onRequestClose={() => setImageViewerVisible(false)}
                                 />
                             </>
+                        ) : (
+                            <Video
+                                useNativeControls
+                                source={{
+                                    uri: attachment.uri,
+                                }}
+                                shouldPlay={false}
+                                style={{
+                                    width: imageContainerWidth,
+                                    height:
+                                        (attachment.height * imageContainerWidth) /
+                                        attachment.width,
+                                }}
+                                resizeMode="contain"
+                            />
                         ))}
                     </View>
                 </View>
