@@ -84,22 +84,18 @@ const ChatScreen = () => {
         // Subscribe to the new attachments
         const subscriptionAttachments = API.graphql(graphqlOperation(onCreateAttachment,  { filter: { chatroomID: { "eq": chatRoomID}}})).subscribe({
             next: ({value}) => {
-                console.log("New attachment", value);
                 const newAttachment = value.data.onCreateAttachment;
-                // setMessages((m) => [value.data.onCreateMessage, ...m]);
-
                 setMessages((existingMessages) => {
-                    const messageToUpdate = existingMessages.find((em) => em.id === newAttachment.messageID);
-                    if(index === -1) return existingMessages;
-                    return existingMessages.splice(index, 1, {
-                        ...existingMessages[index],
-                        Attachments: {
-                            items: [
-                                ...existingMessages[index].Attachments.items,
-                                newAttachment
-                            ]
-                        }
-                    });
+                    const messageToUpdate = existingMessages.find(
+                        (em) => em.id === newAttachment.messageID
+                    );
+                    if(!messageToUpdate) return existingMessages;
+                    if(!messageToUpdate?.Attachments?.items) {
+                        messageToUpdate.Attachments.items = [];
+                    }
+                    messageToUpdate.Attachments.items.push(newAttachment);
+
+                    return existingMessages.map((m) => m.id === messageToUpdate.id ? messageToUpdate : m);
                 })
             },
             error: (error) => {
@@ -114,7 +110,8 @@ const ChatScreen = () => {
     }, [chatRoomID]);
 
     if(!chatRoomID) return <LoadingIndicator />
-    // console.log(JSON.stringify(chatRoom))
+
+    console.log("Messages", messages[0]);
 
     return (
         <KeyboardAvoidingView
