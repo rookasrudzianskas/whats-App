@@ -97,7 +97,7 @@ const ChatScreen = () => {
                 <FlatList
                     keyExtractor={(item) => item.id}
                     // style={{backgroundColor: 'white'}}
-                    data={messages}s
+                    data={messages}
                     showsVerticalScrollIndicator={false}
                     style={styles.list}
                     inverted={true}
