@@ -86,6 +86,9 @@ const InputBox = ({chatRoom}) => {
             const key = `${uuidv4()}.png`;
             await Storage.put(key, blob, {
                 contentType: "image/png", // contentType is optional
+                progressCallback:  (progress) => {
+                    console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+                }
             });
             return key;
         } catch (err) {
