@@ -12,9 +12,9 @@ dayjs.extend(relativeTime);
 
 const Message = ({message}) => {
     const [isMe, setIsMe] = useState(false);
-    const [imageSources, setImageSources] = useState([]);
     const [imageViewerVisible, setImageViewerVisible] = useState(false);
     const { width } = useWindowDimensions();
+    const [downloadAttachments, setDownloadedAttachments] = useState([]);
     const imageContainerWidth = width * 0.8 - 30;
 
     useEffect(() => {
@@ -25,35 +25,44 @@ const Message = ({message}) => {
     }, []);
 
     useEffect(() => {
-        (async () => {
-            if (message.images) {
-                const imageUrls = await Promise.all(message.images.map(Storage.get));
-                setImageSources(imageUrls.map((uri) => ({ uri })));
+        const downloadAttachments = async () => {
+            if (message.Attachments.items) {
+                const downloadedAttachments = await Promise.all(
+                    message.Attachments.items.map((attachment) =>
+                        Storage.get(attachment.storageKey).then((uri) => ({
+                            ...attachment,
+                            uri,
+                        }))
+                    )
+                );
+
+                setDownloadedAttachments(downloadedAttachments);
             }
-        })();
-    }, [message.images]);
+        };
+        downloadAttachments();
+    }, [message.Attachments.items]);
 
     return (
         <View className="shadow-sm" style={[styles.container, {
             backgroundColor: isMe ? '#DCF8C5' : 'white',
             alignSelf: isMe ? 'flex-end' : 'flex-start',
         }]}>
-            {imageSources?.length > 0 && (
+            {downloadAttachments?.length > 0 && (
                 <View style={{ width: imageContainerWidth }}>
                     <View style={styles.images}>
-                        {imageSources.map((imageSource, index) => (
+                        {downloadAttachments.map((imageSource, index) => (
                             <>
                                 <TouchableOpacity
                                     style={[
                                         styles.imageContainer,
-                                        imageSources.length === 1 && { flex: 1 },
+                                        downloadAttachments.length === 1 && { flex: 1 },
                                     ]}
-                                    key={imageSource} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
-                                    <Image source={imageSource} style={styles.image} />
+                                    key={imageSource.uri} activeOpacity={0.7} onPress={() => setImageViewerVisible(true)}>
+                                    <Image source={{ uri: imageSource.uri }} style={styles.image} />
                                 </TouchableOpacity>
 
                                 <ImageView
-                                    images={imageSources}
+                                    images={downloadAttachments.map(({ uri }) => ({ uri }))}
                                     imageIndex={0}
                                     visible={imageViewerVisible}
                                     onRequestClose={() => setImageViewerVisible(false)}

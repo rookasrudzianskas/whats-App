@@ -18,9 +18,10 @@ import {useNavigation, useRoute} from "@react-navigation/native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {API, graphqlOperation} from "aws-amplify";
-import {getChatRoom, listMessagesByChatRoom} from "../../graphql/queries";
+import {getChatRoom} from "../../graphql/queries";
 import {onCreateMessage, onUpdateChatRoom} from "../../graphql/subscriptions";
 import {Feather} from "@expo/vector-icons";
+import {listMessagesByChatRoom} from "./chatScreenQueries";
 
 const ChatScreen = () => {
     const route = useRoute();
@@ -84,7 +85,6 @@ const ChatScreen = () => {
     }, [chatRoomID]);
 
     if(!chatRoomID) return <LoadingIndicator />
-
     // console.log(JSON.stringify(chatRoom))
 
     return (
