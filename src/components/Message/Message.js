@@ -38,16 +38,16 @@ const Message = ({message}) => {
                         }))
                     )
                 );
-
-                // console.log("Downloaded attachments", downloadedAttachments);
                 setDownloadedAttachments(downloadedAttachments);
             }
         };
         downloadAttachments();
-    }, [message.Attachments.items]);
+    }, [JSON.stringify(message.Attachments.items)]);
 
     const imageAttachments = downloadAttachments.filter(attachment => attachment.type === 'IMAGE');
     const videoAttachments = downloadAttachments.filter(attachment => attachment.type === 'VIDEO');
+
+    console.log("Image attachments", imageAttachments);
 
     return (
         <View className="shadow-sm" style={[styles.container, {
