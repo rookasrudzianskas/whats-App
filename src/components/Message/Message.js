@@ -45,6 +45,9 @@ const Message = ({message}) => {
         downloadAttachments();
     }, [message.Attachments.items]);
 
+    const imageAttachments = downloadAttachments.filter(attachment => attachment.type === 'IMAGE');
+    const videoAttachments = downloadAttachments.filter(attachment => attachment.type === 'VIDEO');
+
     return (
         <View className="shadow-sm" style={[styles.container, {
             backgroundColor: isMe ? '#DCF8C5' : 'white',
@@ -52,10 +55,10 @@ const Message = ({message}) => {
         }]}>
             {downloadAttachments.length > 0 && (
                 <View style={[{ width: imageContainerWidth }, styles.images]}>
-                    <ImageAttachments attachments={downloadAttachments} />
+                    <ImageAttachments attachments={imageAttachments} />
 
                     <VideoAttachments
-                        attachments={downloadAttachments}
+                        attachments={videoAttachments}
                         width={imageContainerWidth}
                     />
                 </View>
